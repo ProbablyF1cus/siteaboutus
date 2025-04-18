@@ -1,0 +1,31 @@
+a {
+    background-color: red;
+    letter-spacing: 3px;
+    text-decoration: none;
+    color: white;
+    font-family: "Verdana";
+    box-shadow: 0 0 5px 5px red;
+    transition: all 400ms;
+    height: 25px;
+}
+
+a:hover {
+    box-shadow: 0 0 50px 15px red, 0 0 5px 5px red, 0 0 150px 15px yellow, 0 0 250px 25px blue,0 0 350px 35px green;
+    letter-spacing: 5px;
+    height: 24px
+}
+
+a:active {
+    background-color: rgb(150, 0, 0);
+    box-shadow: 0 0 5px 5px rgb(150, 0, 0);
+    letter-spacing: 7px;
+    height: 22px;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 98vh;
+    background-color: rgb(15, 5, 40);
+}
