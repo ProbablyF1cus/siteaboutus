@@ -1,31 +1,84 @@
-a {
-    background-color: red;
-    letter-spacing: 3px;
-    text-decoration: none;
-    color: white;
-    font-family: "Verdana";
-    box-shadow: 0 0 5px 5px red;
-    transition: all 400ms;
-    height: 25px;
+header {
+    margin: 0;
+    background-color: chocolate;
+    display: flex;
+    min-height: 100px;
+    transition: all 50ms;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-a:hover {
-    box-shadow: 0 0 50px 15px red, 0 0 5px 5px red, 0 0 150px 15px yellow, 0 0 250px 25px blue,0 0 350px 35px green;
-    letter-spacing: 5px;
-    height: 24px
-}
-
-a:active {
-    background-color: rgb(150, 0, 0);
-    box-shadow: 0 0 5px 5px rgb(150, 0, 0);
-    letter-spacing: 7px;
-    height: 22px;
+header:hover {
+    border-radius: 15px;
+    border: 2px solid red;
 }
 
 body {
+    padding: 0;
+    background-color: brown;
+}
+
+.cont {
     display: flex;
     justify-content: center;
+}
+
+.cont-button-header {
+    display: flex;
+    justify-content: end;
     align-items: center;
-    height: 98vh;
-    background-color: rgb(15, 5, 40);
+    margin: 2px;
+}
+
+.header-button {
+    letter-spacing: 2px;
+    border: 0;
+    border-radius: 10px;
+    color: #000;
+    background-color: bisque;
+    height: 100px;
+    width: 175px;
+    font-size: 30px;
+    margin: 10px;
+    margin-right: 20px;
+    transition: all 100ms;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.header-button:hover {
+    letter-spacing: 6px;
+    width: 200px;
+    background-color: rgb(255, 220, 176);
+}
+
+.header-button:active {
+    letter-spacing: 3px;
+    width: 160px;
+    background-color: rgb(255, 200, 134);
+}
+
+.header-text {
+    font-style: italic;
+    font-family: "Helvetica";
+    font-size: 100px;
+    letter-spacing: 10px;
+    color: bisque;
+    user-select: none;
+}
+
+.cont-text-header {
+    width: 70%;
+    margin: 50px;
+    display: flex;
+    align-items: flex-start;
+}
+
+.cont-header-cont-header {
+    width: 30%;
+    display: flex;
+    align-items: center;
 }
