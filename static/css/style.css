@@ -7,11 +7,11 @@ header {
     width: 100%;
     box-sizing: border-box;
 }
-
+/* 
 header:hover {
     border-radius: 15px;
     border: 2px solid red;
-}
+} */
 
 body {
     padding: 0;
