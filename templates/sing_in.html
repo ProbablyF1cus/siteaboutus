@@ -9,7 +9,7 @@
 </head>
 <body>
 <form method="POST" action="/submit_sing_in">
-    <a class="but-sing_in-sing-up" href="http://127.0.0.1:8080/">Выход</a>
+    <button class="but-sing_in-sing-up" name="submit_sing_in" type="submit" value="exit">Выход</button>
     <div class="cont">
         <h1>Sing In</h1>
     </div>
@@ -24,10 +24,10 @@
                 <input type="password" class="input-sing_in" placeholder="Password" name="password">
             </div>
             <div class="cont">
-                <button type="submit" class="but-sing_in" action="submit_sing_in">Sing in</button>
+                <button type="submit" class="but-sing_in" name="submit_sing_in">Sing in</button>
             </div>
             <div class="cont">
-                <a class="but-sing_in-sing-up" href="http://127.0.0.1:8080/sing_up">Sing up</a>
+                <button class="but-sing_in-sing-up" name="submit_sing_in" type="submit" value="go_to_sing_up">Sing up</button>
             </div>
         </div>
     </div>
