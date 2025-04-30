@@ -1,8 +1,16 @@
 from flask import Flask, render_template, request, make_response, redirect, url_for
 from data.users import User
 from data import db_session
+import os
 
 app = Flask(__name__)
+
+IMAGE_FOLDER = 'static/img/images-of-users'
+
+
+def allowed_file(filename):
+    return filename.count('.') == 1 and filename.split('.')[1].lower() in ['png', 'jpg', 'jpeg']
+
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/main', methods=['GET', 'POST'])
@@ -89,23 +97,27 @@ def submit_sing_in():
         return render_template('error.html', error='Неправильный пароль')
 
     db_sess.commit()
+    db_sess.close()
 
     return redirect(url_for('profile', username=username))
 
 
 @app.route("/profile/<username>")
 def profile(username):
-
-    return render_template('profile.html', username=username)
+    db_sess = db_session.create_session()
+    user = db_sess.query(User).filter(User.name == str(username)).first()
+    print(user.name, user.image)
+    image = user.image
+    return render_template('profile.html', username=username, image=image)
 
 
 @app.route("/submit_menu_buttons", methods=['POST', 'GET'])
 def submit_menu_buttons():
     username = request.form.get("username")
-    print(username)
+    # print(username)
 
     if request.form.get("menu-buttons") == "profile":
-        return redirect(url_for('index'))
+        return redirect(url_for('my_profile', username=username))
 
     if request.form.get("menu-buttons") == "all_recipes":
         return redirect(url_for('sing_up'))
@@ -118,6 +130,39 @@ def submit_menu_buttons():
 
     if request.form.get("menu-buttons") == "my_recipes":
         return redirect(url_for('index'))
+
+
+@app.route("/my_profile/<username>")
+def my_profile(username):
+    db_sess = db_session.create_session()
+    user = db_sess.query(User).filter(User.name == str(username)).first()
+    image = user.image
+    db_sess.close()
+    return render_template('my_profile.html', username=username, image=image)
+
+
+@app.route("/set_profile/<username>", methods=['POST', 'GET'])
+def set_image(username):
+    file = request.files['image']
+
+    if file.filename == '':
+        return render_template('error2.html', error='файл не выбран')
+
+    if not allowed_file(file.filename):
+        return render_template('error2.html', error='файл не соответствует формату(png, jpg, jpeg)')
+
+    db_sess = db_session.create_session()
+    user = db_sess.query(User).filter(User.name == str(username)).first()
+
+    filename = f'image_{username}.png'
+
+    user.image = f'/{IMAGE_FOLDER}/{filename}'
+    db_sess.commit()
+    db_sess.close()
+
+    file.save(os.path.join(IMAGE_FOLDER, filename))
+
+    return redirect(url_for('profile', username=username))
 
 
 if __name__ == '__main__':
