@@ -1,0 +1,21 @@
+body {
+    padding: 0;
+    background-color: brown;
+}
+
+.exit {
+    margin-top: 10px;
+    color: rgb(255, 140, 0);
+    text-decoration: none;
+    transition: all 200ms;
+}
+
+.exit:hover {
+    color: rgb(95, 34, 6);
+}
+
+.cont {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

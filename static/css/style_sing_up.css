@@ -1,0 +1,70 @@
+.cont {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+body {
+    padding: 0;
+    background-color: brown;
+}
+
+.input-sing_up {
+    height: 50px;
+    min-width: 250px;
+    width: 100%;
+    border: 0px solid black;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    margin-top: 2px;
+    background-color: bisque;
+    font-size: 30px;
+}
+
+.input-sing_up:focus{
+    box-shadow: 0 0 5px 0 rgb(255, 140, 0);
+    border: 0;
+    outline: none;
+}
+
+.but-sing_up {
+    width: 150px;
+    height: 50px;
+    border: 0px;
+    background-color: rgb(255, 140, 0);
+    box-shadow: 0 0 5px 0 rgb(255, 140, 0);
+    margin-top: 35px;
+    letter-spacing: 4px;
+    font-size: 20px;
+    transition: box-shadow 200ms, letter-spacing 200ms, all 200ms;
+}
+
+.but-sing_up:hover {
+    box-shadow: 0 0 25px 5px rgb(255, 140, 0), 0 0 125px 5px rgb(255, 140, 0);
+    letter-spacing: 6px;
+}
+
+.but-sing_up:active {
+    width: 125px;
+    height: 45px;
+    background-color: rgb(153, 84, 0);
+    letter-spacing: 2px;
+    box-shadow: 0 0 5px 0 rgb(255, 140, 0);
+}
+
+.sing_up-form {
+    border: 1px solid black;
+}
+
+.but-sing_up-sing-in {
+    margin-top: 10px;
+    color: rgb(255, 140, 0);
+    text-decoration: none;
+    transition: all 200ms;
+    border: 0;
+    background-color: brown;
+}
+
+.but-sing_up-sing-in:hover {
+    color: rgb(95, 34, 6);
+}
