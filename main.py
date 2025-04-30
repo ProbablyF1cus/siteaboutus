@@ -95,7 +95,30 @@ def submit_sing_in():
 
 @app.route("/profile/<username>")
 def profile(username):
+
     return render_template('profile.html', username=username)
+
+
+@app.route("/submit_menu_buttons", methods=['POST', 'GET'])
+def submit_menu_buttons():
+    username = request.form.get("username")
+    print(username)
+
+    if request.form.get("menu-buttons") == "profile":
+        return redirect(url_for('index'))
+
+    if request.form.get("menu-buttons") == "all_recipes":
+        return redirect(url_for('sing_up'))
+
+    if request.form.get("menu-buttons") == "possible_recipes":
+        return redirect(url_for('index'))
+
+    if request.form.get("menu-buttons") == "make_recipe":
+        return redirect(url_for('sing_up'))
+
+    if request.form.get("menu-buttons") == "my_recipes":
+        return redirect(url_for('index'))
+
 
 
 if __name__ == '__main__':
