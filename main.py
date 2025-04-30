@@ -120,7 +120,6 @@ def submit_menu_buttons():
         return redirect(url_for('index'))
 
 
-
 if __name__ == '__main__':
     db_session.global_init('db/db.db')
     app.run(port=8080, host='127.0.0.1')
