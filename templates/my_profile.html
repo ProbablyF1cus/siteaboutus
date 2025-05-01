@@ -10,6 +10,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
 </head>
 <body class="body">
+    <header style="background-color: rgb(170, 75, 7);">
+        <div class="cont">
+            <h1>EasyCooking: {{ username }}</h1>
+        </div>
+    </header>
     <form action="/set_profile/{{ username }}" method="POST" enctype="multipart/form-data">
         <div class="cont">
             <div>
@@ -17,15 +22,19 @@
             </div>
             <div class="mb-3">
                 <label for="formFile" class="form-label"><h3>Изменить изображение.</h3></label>
-                <input class="form-control" type="file" id="formFile" name="image">
+                <input class="form-control" type="file" value={{ image }} id="formFile" name="image" style="background-color: rgb(170, 75, 7);">
             </div>
         </div>
         <hr>
-        <div>
-            
+        <div class="cont">
+            <div class="mb-3" style="width: 30%;">
+                <label for="input-username" class="form-label"><h3>Изменить имя.</h3></label>
+                <input type="text" class="form-control" id="input-username" value={{ username }} style="background-color: rgb(170, 75, 7);" name="username">
+            </div>
         </div>
-        <div>
-            <button type="submit" name="set_profile" value="change">Сохранить</button>
+        <hr>
+        <div class="cont">
+            <button type="submit" name="set_profile" value="change" class="submit-button">Сохранить</button>
         </div>
     </form>
 </body>

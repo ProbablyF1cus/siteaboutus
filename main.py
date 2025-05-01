@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, make_response, redirect, url_for
 from data.users import User
+from data.recipes import Recipe
 from data import db_session
 import os
 
@@ -106,7 +107,7 @@ def submit_sing_in():
 def profile(username):
     db_sess = db_session.create_session()
     user = db_sess.query(User).filter(User.name == str(username)).first()
-    print(user.name, user.image)
+    #print(user.name, user.image)
     image = user.image
     return render_template('profile.html', username=username, image=image)
 
@@ -145,22 +146,36 @@ def my_profile(username):
 def set_image(username):
     file = request.files['image']
 
-    if file.filename == '':
-        return render_template('error2.html', error='файл не выбран')
+    if file.filename != '':
 
-    if not allowed_file(file.filename):
-        return render_template('error2.html', error='файл не соответствует формату(png, jpg, jpeg)')
+        if not allowed_file(file.filename):
+            return render_template('error2.html', error='файл не соответствует формату(png, jpg, jpeg)')
+
+        db_sess = db_session.create_session()
+        user = db_sess.query(User).filter(User.name == str(username)).first()
+
+        filename = f'image_{user.id}.png'
+
+        user.image = f'/{IMAGE_FOLDER}/{filename}'
+        db_sess.commit()
+
+        file.save(os.path.join(IMAGE_FOLDER, filename))
+
+    new_name = request.form.get('username')
 
     db_sess = db_session.create_session()
-    user = db_sess.query(User).filter(User.name == str(username)).first()
 
-    filename = f'image_{username}.png'
+    all_names = [i.name for i in db_sess.query(User).filter(User.name != str(username))]
 
-    user.image = f'/{IMAGE_FOLDER}/{filename}'
-    db_sess.commit()
-    db_sess.close()
+    if new_name not in all_names and new_name:
+        user = db_sess.query(User).filter(User.name == str(username)).first()
+        print(new_name)
+        user.name = str(new_name)
+        db_sess.commit()
+    else:
+        return render_template('error2.html', error='Такое имя уже существует')
 
-    file.save(os.path.join(IMAGE_FOLDER, filename))
+    username = user.name
 
     return redirect(url_for('profile', username=username))
 
