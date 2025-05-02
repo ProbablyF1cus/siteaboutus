@@ -7,6 +7,7 @@ import os
 app = Flask(__name__)
 
 IMAGE_FOLDER = 'static/img/images-of-users'
+IMAGE_RECIPE_FOLDER = 'static/img/images-of-recipes'
 
 
 def allowed_file(filename):
@@ -107,7 +108,7 @@ def submit_sing_in():
 def profile(username):
     db_sess = db_session.create_session()
     user = db_sess.query(User).filter(User.name == str(username)).first()
-    #print(user.name, user.image)
+    # print(user.name, user.image)
     image = user.image
     return render_template('profile.html', username=username, image=image)
 
@@ -127,7 +128,7 @@ def submit_menu_buttons():
         return redirect(url_for('index'))
 
     if request.form.get("menu-buttons") == "make_recipe":
-        return redirect(url_for('sing_up'))
+        return redirect(url_for('make_recipe', username=username))
 
     if request.form.get("menu-buttons") == "my_recipes":
         return redirect(url_for('index'))
@@ -169,13 +170,48 @@ def set_image(username):
 
     if new_name not in all_names and new_name:
         user = db_sess.query(User).filter(User.name == str(username)).first()
-        print(new_name)
         user.name = str(new_name)
         db_sess.commit()
     else:
         return render_template('error2.html', error='Такое имя уже существует')
 
     username = user.name
+
+    return redirect(url_for('profile', username=username))
+
+
+@app.route("/make_recipe/<username>")
+def make_recipe(username):
+    return render_template('make_recipe.html', username=username)
+
+
+@app.route("/submit_make_recipe/<username>", methods=['POST', 'GET'])
+def submit_make_recipe(username):
+    print(username)
+    if request.form.get('make_recipe') == 'make':
+        db_sess = db_session.create_session()
+        user = db_sess.query(User).filter(User.name == str(username)).first()
+        user_id = user.id
+
+        recipe = Recipe()
+
+        recipe.name = request.form.get('name')
+        recipe.description = request.form.get('description')
+        recipe.author = username
+
+        file = request.files['image']
+
+        if file.filename != '':
+            if not allowed_file(file.filename):
+                return render_template('error2.html', error='файл не соответствует формату(png, jpg, jpeg)')
+            filename = f'image_{len(db_sess.query(Recipe).all()) + 1}.png'
+            recipe.image = f'/{IMAGE_RECIPE_FOLDER}/{filename}'
+            file.save(os.path.join(IMAGE_RECIPE_FOLDER, filename))
+        else:
+            recipe.image = f'/static/img/none_image.png'
+
+        db_sess.add(recipe)
+        db_sess.commit()
 
     return redirect(url_for('profile', username=username))
 

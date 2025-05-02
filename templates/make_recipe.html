@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/style_make_recipe.css">
+    <script src="../static/js/script.js" defer></script>
+    <title>Document</title>
+    <link rel="icon" href="/static/img/icon.png" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+</head>
+<body class="body">
+<header>
+    <div class="cont">
+        <h1 style="color: bisque;"><i>EasyCooking: Создание рецептов</i></h1>
+    </div>
+</header>
+<hr>
+<form method="POST" action="/submit_make_recipe/{{username}}" enctype="multipart/form-data">
+    <div class="cont">
+        <div class="cont-for-inputs">
+            <div>
+                <label for="name-input" class="form-label"><h3>Название рецепта</h3></label>
+                <input type="text" class="form-control input" id="name-input" placeholder="название" style="width: 100%; background-color: rgb(175, 78, 8);" name="name">
+            </div>
+            <div>
+                <label for="description-input" class="form-label"><h3>Описание рецепта</h3></label>
+                <textarea type="text" class="form-control input" id="description-input"  style="width: 100%; background-color: rgb(175, 78, 8); height: 300px;" name="description"></textarea>
+            </div>
+            <div>
+                <label for="image-input" class="form-label"><h3>Картинка к рецепту</h3></label>
+                <input name="image" type="file" class="form-control input" id="image-input" style="width: 100%; background-color: rgb(175, 78, 8);">
+            </div>
+            <hr>
+            <div class="cont">
+                <button type="submit" name="make_recipe" value="make" class="submit-button">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</form>
+</body>
+</html>
