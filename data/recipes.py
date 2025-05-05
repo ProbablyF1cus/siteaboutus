@@ -1,0 +1,12 @@
+import sqlalchemy
+from .db_session import SqlAlchemyBase
+
+
+class Recipe(SqlAlchemyBase):
+    __tablename__ = 'recipes'
+
+    id = sqlalchemy.Column(sqlalchemy.Integer, primary_key=True, autoincrement=True)
+    name = sqlalchemy.Column(sqlalchemy.String, nullable=True, unique=True)
+    image = sqlalchemy.Column(sqlalchemy.String, default='/static/img/none-user-image.png')
+    description = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    author = sqlalchemy.Column(sqlalchemy.String, nullable=True)

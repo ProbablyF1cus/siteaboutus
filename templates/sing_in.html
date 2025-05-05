@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/style_sing_in.css">
+    <script src="../static/js/script.js" defer></script>
+    <title>Document</title>
+</head>
+<body>
+<form method="POST" action="/submit_sing_in">
+    <button class="but-sing_in-sing-up" name="submit_sing_in" type="submit" value="exit">Выход</button>
+    <div class="cont">
+        <h1>Sing In</h1>
+    </div>
+    <div class="cont">
+        <div>
+            <div>
+                <h3>Username or Email</h3>
+                <input type="text" class="input-sing_in" placeholder="Username or Email" name="username">
+            </div>
+            <div>
+                <h3>Password</h3>
+                <input type="password" class="input-sing_in" placeholder="Password" name="password">
+            </div>
+            <div class="cont">
+                <button type="submit" class="but-sing_in" name="submit_sing_in">Sign in</button>
+            </div>
+            <div class="cont">
+                <button class="but-sing_in-sing-up" name="submit_sing_in" type="submit" value="go_to_sing_up">Sign up</button>
+            </div>
+        </div>
+    </div>
+</form>
+</body>
+</html>
