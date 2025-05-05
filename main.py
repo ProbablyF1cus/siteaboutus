@@ -122,7 +122,7 @@ def submit_menu_buttons():
         return redirect(url_for('my_profile', username=username))
 
     if request.form.get("menu-buttons") == "all_recipes":
-        return redirect(url_for('sing_up'))
+        return redirect(url_for('all_recipes'))
 
     if request.form.get("menu-buttons") == "possible_recipes":
         return redirect(url_for('index'))
@@ -214,6 +214,30 @@ def submit_make_recipe(username):
         db_sess.commit()
 
     return redirect(url_for('profile', username=username))
+
+
+@app.route("/all_recipes", methods=['POST', 'GET'])
+def all_recipes():
+    db_sess = db_session.create_session()
+    recipes = db_sess.query(Recipe).all()
+    recipes = [[i.id, i.name, i.description, i.image, i.author] for i in recipes]
+    # print(recipes)
+    return render_template('all_recipes.html', recipes=recipes)
+
+
+@app.route("/submit_all_recipes", methods=['POST', 'GET'])
+def submit_all_recipes():
+    db_sess = db_session.create_session()
+    recipes = db_sess.query(Recipe).all()
+    recipes = [int(i.id) for i in recipes]
+    print(request.form.get('action'))
+    print(recipes)
+    if int(request.form.get('action')) in recipes:
+        recipe = db_sess.query(Recipe).filter(Recipe.id == int(request.form.get('action'))).first()
+
+        return str(recipe.description)
+    return redirect(url_for('all_recipes'))
+
 
 
 if __name__ == '__main__':
