@@ -69,7 +69,6 @@
 
 .products4cooking {
     margin-top: 20px;
-    position: relative;
     width: 100%;
 }
 
@@ -84,8 +83,6 @@
 }
 
 .listofproducts {
-    display: none;
-    flex-direction: column;
     background-color: rgb(175, 78, 8);
     border: 1px solid bisque;
     border-radius: 5px;

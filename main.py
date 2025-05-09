@@ -126,12 +126,12 @@ def profile(username):
 def submit_menu_buttons():
     username = request.form.get("username")
     # print(username)
-
     if request.form.get("menu-buttons") == "profile":
-        return redirect(url_for('my_profile', username=username))
+        return redirect(url_for('my_profile', username
+=username))
 
     if request.form.get("menu-buttons") == "all_recipes":
-        return redirect(url_for('sing_up'))
+        return redirect(url_for('all_recipes'))
 
     if request.form.get("menu-buttons") == "possible_recipes":
         return redirect(url_for('index'))
@@ -227,4 +227,4 @@ def submit_make_recipe(username):
 
 if __name__ == '__main__':
     db_session.global_init('db/db.db')
-    app.run(port=8080, host='127.0.0.1')
+    app.run(port=8080, host='127.0.0.2')

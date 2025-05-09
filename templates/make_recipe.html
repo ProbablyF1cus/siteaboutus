@@ -25,6 +25,24 @@
                 <input type="text" class="form-control input" id="name-input" placeholder="название"
                        style="width: 100%; background-color: rgb(175, 78, 8);" name="name">
             </div>
+            <details class="products4cooking">
+                <summary class="dropdown-toggle">Выбери тип блюда</summary>
+                    {% set recipe_types = [['Завтрак', 'breakfast'], ['Обед', 'lunch'], ['Ужин', 'dinner'], ['Десерт', 'dessert'], ['Суп', 'soup'], ['Салат', 'salad'], ['Напиток', 'drink'], ['Закуска', 'snack'], ['Выпечка', 'bakery']] %}
+                    {% for i in recipe_types %}
+                    <div class="">
+                        <label><input class="listofproducts" name="recipe_types" value={{ i[1] }} type="checkbox">{{ i[0] }}</label>
+                    </div>
+                    {% endfor %}
+            </details>
+            <details class="products4cooking">
+                <summary class="dropdown-toggle">Выбери сложность блюда</summary>
+                    {% set recipe_difficulties = [['Простой', 'easy'], ['Средний', 'medium'], ['Сложный', 'hard']] %}
+                    {% for i in recipe_difficulties %}
+                    <div class="">
+                        <label><input class="listofproducts" name="recipe_dif" value={{ i[1] }} type="radio">{{ i[0] }}</label>
+                    </div>
+                    {% endfor %}
+            </details>
             <div>
                 <label for="description-input" class="form-label"><h3>Описание рецепта</h3></label>
                 <textarea type="text" class="form-control input" id="description-input"
@@ -35,25 +53,103 @@
                 <summary class="dropdown-toggle">Выбери продукты, нужные для рецепта</summary>
                 <details class="products4cooking">
                     <summary class="dropdown-toggle">Молочные продукты</summary>
-                        <label><input type="checkbox" name="categories" value="Молоко"> Молоко</label>
-                        <label><input type="checkbox" name="categories" value="Сметана"> Сметана</label>
-                        <label><input type="checkbox" name="categories" value="Творог"> Творог</label>
-                        <label><input type="checkbox" name="categories" value="Мороженое"> Мороженое</label>
+                        {% set dairy = [['Молоко', 'milk'], ['Сметана', 'sour_cream'], ['Творог', 'curd'], ['Йогурт', 'yogurt'], ['Сливки', 'cream'], ['Кефир', 'kefir'], ['Масло сливочное', 'butter']] %}
+                        {% for i in dairy %}
+                        <div class="">
+                            <label><input class="listofproducts" name="ingredients" value={{ i[1] }} type="checkbox">{{ i[0] }}</label>
+                        </div>
+                        {% endfor %}
 
                 </details>
                 <details class="products4cooking">
-                    <summary class="dropdown-toggle">Хлебобулочные изделия</summary>
-                        <label><input type="checkbox" name="categories" value="Дарницкий хлеб"> Дарницкий хлеб</label>
-                        <label><input type="checkbox" name="categories" value="Багет"> Багет</label>
-                        <label><input type="checkbox" name="categories" value="Белый батон"> Белый батон</label>
-                        <label><input type="checkbox" name="categories" value="Лаваш"> Лаваш</label>
+                    <summary class="dropdown-toggle">Мясные продукты</summary>
+                        {% set meat = [['Говядина', 'beef'], ['Свинина', 'pork'], ['Курица', 'chicken'], ['Индейка', 'turkey'], ['Баранина', 'lamb'], ['Колбаса', 'sausage'], ['Ветчина', 'ham']] %}
+                        {% for i in meat %}
+                        <div class="">
+                            <label><input class="listofproducts" name="ingredients" value={{ i[1] }} type="checkbox">{{ i[0] }}</label>
+                        </div>
+                        {% endfor %}
                 </details>
                 <details class="products4cooking">
-                    <summary class="dropdown-toggle">Крупы</summary>
-                        <label><input type="checkbox" name="categories" value="Макароны"> Макароны</label>
-                        <label><input type="checkbox" name="categories" value="Гречка"> Гречка</label>
-                        <label><input type="checkbox" name="categories" value="Кус-Кус"> Кус-Кус</label>
-                        <label><input type="checkbox" name="categories" value="Рис"> Рис</label>
+                    <summary class="dropdown-toggle">Овощи</summary>
+                        {% set vegetables = [['Картофель', 'potato'], ['Морковь', 'carrot'], ['Огурец', 'cucumber'], ['Помидор', 'tomato'], ['Капуста', 'cabbage'], ['Перец', 'pepper'], ['Лук', 'onion'], ['Чеснок', 'garlic']] %}
+                        {% for i in vegetables %}
+                        <div class="">
+                            <label><input class="listofproducts" name="ingredients" value={{ i[1] }} type="checkbox">{{ i[0] }}</label>
+                        </div>
+                        {% endfor %}
+                </details>
+                <details class="products4cooking">
+                    <summary class="dropdown-toggle">Фрукты</summary>
+                        {% set fruits = [['Яблоко', 'apple'], ['Банан', 'banana'], ['Апельсин', 'orange'], ['Груша', 'pear'], ['Виноград', 'grape'], ['Киви', 'kiwi'], ['Ананас', 'pineapple']] %}
+                        {% for i in fruits %}
+                        <div class="">
+                            <label><input class="listofproducts" name="ingredients" value={{ i[1] }} type="checkbox">{{ i[0] }}</label>
+                        </div>
+                        {% endfor %}
+                </details>
+                <details class="products4cooking">
+                    <summary class="dropdown-toggle">Хлеб и крупы</summary>
+                        {% set grains = [['Хлеб', 'bread'], ['Макароны', 'pasta'], ['Рис', 'rice'], ['Гречка', 'buckwheat'], ['Овсянка', 'oatmeal'], ['Мука', 'flour'], ['Кукуруза', 'corn']] %}
+                        {% for i in grains %}
+                        <div class="">
+                            <label><input class="listofproducts" name="ingredients" value={{ i[1] }} type="checkbox">{{ i[0] }}</label>
+                        </div>
+                        {% endfor %}
+                </details>
+                <details class="products4cooking">
+                    <summary class="dropdown-toggle">Морепродукты</summary>
+                        {% set seafood = [['Рыба', 'fish'], ['Креветки', 'shrimp'], ['Мидии', 'mussels'], ['Кальмар', 'squid'], ['Лосось', 'salmon'], ['Тунец', 'tuna']] %}
+                        {% for i in seafood %}
+                        <div class="">
+                            <label><input class="listofproducts" name="ingredients" value={{ i[1] }} type="checkbox">{{ i[0] }}</label>
+                        </div>
+                        {% endfor %}
+                </details>
+                <details class="products4cooking">
+                    <summary class="dropdown-toggle">Яйца</summary>
+                        {% set eggs = [['Куриное яйцо', 'chicken_egg'], ['Перепелиное яйцо', 'quail_egg'], ['Страусиное яйцо', 'ostrich_egg']] %}
+                        {% for i in eggs %}
+                        <div class="">
+                            <label><input class="listofproducts" name="ingredients" value={{ i[1] }} type="checkbox">{{ i[0] }}</label>
+                        </div>
+                        {% endfor %}
+                </details>
+                <details class="products4cooking">
+                    <summary class="dropdown-toggle">Орехи</summary>
+                        {% set nuts = [['Грецкий орех', 'walnut'], ['Миндаль', 'almond'], ['Фундук', 'hazelnut'], ['Арахис', 'peanut'], ['Кешью', 'cashew']] %}
+                        {% for i in nuts %}
+                        <div class="">
+                            <label><input class="listofproducts" name="ingredients" value={{ i[1] }} type="checkbox">{{ i[0] }}</label>
+                        </div>
+                        {% endfor %}
+                </details>
+                <details class="products4cooking">
+                    <summary class="dropdown-toggle">Специи</summary>
+                        {% set spices = [['Соль', 'salt'], ['Перец', 'pepper'], ['Паприка', 'paprika'], ['Куркума', 'turmeric'], ['Базилик', 'basil'], ['Чабрец', 'thyme'], ['Чеснок сушеный', 'dried_garlic']] %}
+                        {% for i in spices %}
+                        <div class="">
+                            <label><input class="listofproducts" name="ingredients" value={{ i[1] }} type="checkbox">{{ i[0] }}</label>
+                        </div>
+                        {% endfor %}
+                </details>
+                <details class="products4cooking">
+                    <summary class="dropdown-toggle">Бобовые культуры</summary>
+                        {% set legumes = [['Фасоль', 'beans'], ['Горох', 'peas'], ['Чечевица', 'lentils'], ['Нут', 'chickpeas']] %}
+                        {% for i in fruits %}
+                        <div class="">
+                            <label><input class="listofproducts" name="ingredients" value={{ i[1] }} type="checkbox">{{ i[0] }}</label>
+                        </div>
+                        {% endfor %}
+                </details>
+                <details class="products4cooking">
+                    <summary class="dropdown-toggle">Разное</summary>
+                        {% set misc = [['Сахар', 'sugar'], ['Майонез', 'mayonnaise'], ['Кетчуп', 'ketchup'], ['Уксус', 'vinegar'], ['Соевый соус', 'soy_sauce'], ['Разрыхлитель', 'baking_powder'], ['Какао', 'cocoa'], ['Дрожжи', 'yeast']] %}
+                        {% for i in misc %}
+                        <div class="">
+                            <label><input class="listofproducts" name="ingredients" value={{ i[1] }} type="checkbox">{{ i[0] }}</label>
+                        </div>
+                        {% endfor %}
                 </details>
             </details>
             <div>
