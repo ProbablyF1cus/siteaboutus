@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, make_response, redirect, url_
 from data.users import User
 from data.recipes import Recipe
 from data import db_session
+import datetime
 import os
 
 app = Flask(__name__)
@@ -17,6 +18,10 @@ recipes = [{
 def allowed_file(filename):
     return filename.count('.') == 1 and filename.split('.')[1].lower() in ['png', 'jpg', 'jpeg']
 
+def log_move(name_move, user):
+    f = open("static/logs.txt", 'a')
+    print(f.write(f'User {user} {name_move} at {datetime.datetime.now()} \n'))
+    f.close()
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/main', methods=['GET', 'POST'])
@@ -33,9 +38,12 @@ def all_recipes():
 def index_form():
     action = request.form.get("singing")
     if action == "sing_up":
+        log_move('someone is trying to sing_up', 'None')
         return redirect(url_for("sing_up"))
     if action == "sing_in":
+        log_move('someone is trying to sing_in', 'None')
         return redirect(url_for("sing_in"))
+
 
 
 @app.route("/sing_up")
@@ -61,19 +69,25 @@ def submit_sing_up():
     password = request.form.get("password")
     password2 = request.form.get("confirm_password")
     if "@" not in email or len(email) < 5:
+        log_move('mistakes at email', username)
         return render_template("error.html", error="Некорректный Email")
     if len(username) < 3 or '/' in username:
+        log_move('mistakes at username', username)
         return render_template("error.html", error="Короткий username")
     if len(password) < 3:
+        log_move('mistakes at password(too short)', username)
         return render_template("error.html", error="Короткий password")
     if password != password2:
+        log_move('mistakes at password(they are different)', username)
         return render_template("error.html", error="Пароли не совпадают")
     db_sess = db_session.create_session()
 
     if email in [i.email for i in db_sess.query(User).all()]:
+        log_move('mistakes at Email(already exist)', username)
         return render_template("error.html", error="Такой Email уже зарегестрирован")
 
     if username in [i.name for i in db_sess.query(User).all()]:
+        log_move('mistakes at Username(already exist)', username)
         return render_template("error.html", error="Такой Username уже зарегестрирован")
 
     user = User()
@@ -83,7 +97,7 @@ def submit_sing_up():
 
     db_sess.add(user)
     db_sess.commit()
-
+    log_move('is sing up', username)
     return redirect(url_for('profile', username=username))
 
 
@@ -102,14 +116,16 @@ def submit_sing_in():
 
     user = db_sess.query(User).filter(User.name == username).first()
     if not user:
+        log_move('mistakes at smthg(user is not founded)', username)
         return render_template('error.html', error='Такого пользователя не существует')
 
     if user.password != password:
+        log_move('mistakes at password(password is wrong)', username)
         return render_template('error.html', error='Неправильный пароль')
 
     db_sess.commit()
     db_sess.close()
-
+    log_move('is sing in', username)
     return redirect(url_for('profile', username=username))
 
 
@@ -119,6 +135,7 @@ def profile(username):
     user = db_sess.query(User).filter(User.name == str(username)).first()
     # print(user.name, user.image)
     image = user.image
+
     return render_template('profile.html', username=username, image=image)
 
 
@@ -127,19 +144,24 @@ def submit_menu_buttons():
     username = request.form.get("username")
     # print(username)
     if request.form.get("menu-buttons") == "profile":
+        log_move('is tap button profile', username)
         return redirect(url_for('my_profile', username
 =username))
 
     if request.form.get("menu-buttons") == "all_recipes":
+        log_move('is tap button all_recipes', username)
         return redirect(url_for('all_recipes'))
 
     if request.form.get("menu-buttons") == "possible_recipes":
+        log_move('is tap button possible_recipes', username)
         return redirect(url_for('index'))
 
     if request.form.get("menu-buttons") == "make_recipe":
+        log_move('is tap button make_recipe', username)
         return redirect(url_for('make_recipe', username=username))
 
     if request.form.get("menu-buttons") == "my_recipes":
+        log_move('is tap button my_recipes', username)
         return redirect(url_for('index'))
 
 
@@ -185,6 +207,7 @@ def set_image(username):
         return render_template('error2.html', error='Такое имя уже существует')
 
     username = user.name
+    log_move('set new image at their profile', username)
 
     return redirect(url_for('profile', username=username))
 
@@ -198,8 +221,9 @@ def make_recipe(username):
 def submit_make_recipe(username):
     print(username)
     if request.form.get('make_recipe') == 'make':
+        log_move('is trying to make new recipe', username)
         db_sess = db_session.create_session()
-        user = db_sess.query(User).filter(User.name == str(username)).first()
+        user = db_sess.query(User).filter(User.name ==  str(username)).first()
         user_id = user.id
 
         recipe = Recipe()
