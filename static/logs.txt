@@ -17,3 +17,40 @@ User Malef1cus set new image at their profile at 2025-05-09 22:18:08.221079
 User Malef1cus is tap button profile at 2025-05-09 22:18:09.783179 
 User Malef1cus set new image at their profile at 2025-05-09 22:18:11.925587 
 User Malef1cus is tap button make_recipe at 2025-05-09 22:18:31.758121 
+User someone is trying to sing_in at 2025-05-09 22:55:08.280105 
+User Malef1cus is sing in at 2025-05-09 22:55:15.850310 
+User Malef1cus is tap button all_recipes at 2025-05-09 22:57:09.908022 
+User Malef1cus is tap button possible_recipes at 2025-05-09 22:57:12.187588 
+User Malef1cus is tap button make_recipe at 2025-05-09 22:57:13.788406 
+User Malef1cus is tap button profile at 2025-05-09 22:57:28.531476 
+User Malef1cus is tap button profile at 2025-05-09 22:57:36.064795 
+User Malef1cus set new image at their profile at 2025-05-09 22:57:51.343115 
+User Malef1cus is tap button all_recipes at 2025-05-09 23:51:02.277947 
+User Malef1cus is tap button possible_recipes at 2025-05-09 23:51:04.285831 
+User Malef1cus is tap button make_recipe at 2025-05-09 23:51:05.581982 
+User Malef1cus is tap button all_recipes at 2025-05-10 00:10:34.037493 
+User Malef1cus is tap button make_recipe at 2025-05-10 00:10:37.200729 
+User Malef1cus is tap button my_recipes at 2025-05-10 00:10:39.058265 
+User Malef1cus is tap button profile at 2025-05-10 00:10:40.332535 
+User Malef1cus is tap button all_recipes at 2025-05-10 00:12:06.523182 
+User Malef1cus is tap button possible_recipes at 2025-05-10 00:12:08.334215 
+User someone is trying to sing_in at 2025-05-10 00:12:11.213327 
+User 1123 mistakes at smthg(user is not founded) at 2025-05-10 00:12:15.375713 
+User someone is trying to sing_up at 2025-05-10 00:12:18.529720 
+User someone is trying to sing_up at 2025-05-10 00:12:37.386464 
+User Malef1cus is tap button my_recipes at 2025-05-10 01:22:38.335216 
+User someone is trying to sing_up at 2025-05-10 01:22:40.213520 
+User someone is trying to sing_in at 2025-05-10 01:22:41.473757 
+User Malef1cus is tap button all_recipes at 2025-05-10 01:22:44.169759 
+User someone is trying to sing_in at 2025-05-10 02:08:23.254000 
+User Malef1cus is sing in at 2025-05-10 02:08:27.595691 
+User Malef1cus is tap button possible_recipes at 2025-05-10 02:46:57.670674 
+User Malef1cus is tap button possible_recipes at 2025-05-10 02:46:59.565966 
+User Malef1cus is tap button all_recipes at 2025-05-10 02:47:00.554672 
+User Malef1cus is tap button possible_recipes at 2025-05-10 02:47:30.375246 
+User Malef1cus is tap button make_recipe at 2025-05-10 02:47:32.559133 
+User Malef1cus is tap button my_recipes at 2025-05-10 02:47:34.529276 
+User Malef1cus is tap button all_recipes at 2025-05-10 02:47:35.949324 
+User Malef1cus is tap button all_recipes at 2025-05-10 02:48:12.211184 
+User Malef1cus is tap button all_recipes at 2025-05-10 02:48:14.907673 
+User Malef1cus is tap button all_recipes at 2025-05-10 02:49:06.382927 

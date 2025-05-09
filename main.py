@@ -38,10 +38,10 @@ def all_recipes():
 def index_form():
     action = request.form.get("singing")
     if action == "sing_up":
-        log_move('someone is trying to sing_up', 'None')
+        log_move('is trying to sing_up', 'someone')
         return redirect(url_for("sing_up"))
-    if action == "sing_in":
-        log_move('someone is trying to sing_in', 'None')
+    if action == "sing_in" :
+        log_move('is trying to sing_in', 'someone')
         return redirect(url_for("sing_in"))
 
 
