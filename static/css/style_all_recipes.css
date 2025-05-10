@@ -1,0 +1,10 @@
+.cont {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.my-card {
+    margin: 20px;
+    min-width: 320px;
+}
