@@ -23,15 +23,90 @@ def log_move(name_move, user):
     print(f.write(f'User {user} {name_move} at {datetime.datetime.now()} \n'))
     f.close()
 
+def transliteration(word):
+    slob = {
+        "А": "A",
+        "Б": "B",
+        "В": "V",
+        "Г": "G",
+        "Д": "D",
+        "Е": "E",
+        "Ё": "E",
+        "Ж": "Zh",
+        "З": "Z",
+        "И": "I",
+        "Й": "I",
+        "К": "K",
+        "Л": "L",
+        "М": "M",
+        "Н": "N",
+        "О": "O",
+        "П": "P",
+        "Р": "R",
+        "С": "S",
+        "Т": "T",
+        "У": "U",
+        "Ф": "F",
+        "Х": "Kh",
+        "Ц": "Tc",
+        "Ч": "Ch",
+        "Ш": "Sh",
+        "Щ": "Shch",
+        "Ы": "Y",
+        "Э": "E",
+        "Ю": "Iu",
+        "Я": "Ia",
+        "а": "a",
+        "б": "b",
+        "в": "v",
+        "г": "g",
+        "д": "d",
+        "е": "e",
+        "ё": "e",
+        "ж": "zh",
+        "з": "z",
+        "и": "i",
+        "й": "i",
+        "к": "k",
+        "л": "l",
+        "м": "m",
+        "н": "n",
+        "о": "o",
+        "п": "p",
+        "р": "r",
+        "с": "s",
+        "т": "t",
+        "у": "u",
+        "ф": "f",
+        "х": "kh",
+        "ц": "tc",
+        "ч": "ch",
+        "ш": "sh",
+        "щ": "shch",
+        "ы": "y",
+        "э": "e",
+        "ю": "iu",
+        "я": "ia",
+    }
+    fol = word.split()
+    gol = []
+    g = len(fol)
+    hkl = 0
+    for i in fol:
+        for j in i:
+            if j in slob:
+                gol.append(slob[j])
+            elif j != "ь" and j != "ъ" and j != 'Ь' and j != 'Ъ':
+                gol.append(j)
+        hkl += 1
+        if hkl != g:
+            gol.append(" ")
+    return "".join(gol)
+
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/main', methods=['GET', 'POST'])
 def index():
     return render_template('index.html')
-
-
-@app.route('/all_recipes', methods=['GET', 'POST'])
-def all_recipes():
-    return render_template('all_recipes1.html', recipes=recipes)
 
 
 @app.route('/index', methods=['GET', 'POST'])
@@ -138,6 +213,71 @@ def profile(username):
 
     return render_template('profile.html', username=username, image=image)
 
+@app.route("/recipe_filter/<username>", methods=['GET', 'POST'])
+def recipe_filter(username):
+    return render_template('recipe_filter.html', username=username)
+
+
+@app.route("/submit_recipe_filter/<username>", methods=['POST', 'GET'])
+def submit_recipe_filter(username):
+    if request.form.get('ifexit') == 'exit_':
+        return render_template('profile.html', username=username)
+    if request.form.get('search_recipe') == 'search':
+        print('dsfapk[jmdpas')
+        name = request.form.get('name')
+        description = request.form.get('description')
+        products = request.form.getlist('ingredients')
+        difficult = request.form.get('recipe_dif')
+        type = request.form.getlist('recipe_types')
+        needofall = request.form.get('needofall')
+        author = username
+        db_sess = db_session.create_session()
+        recipes1 = db_sess.query(Recipe).all()
+        recipes1 = [[i.id, i.name, i.description, i.image, i.author, i.products, i.difficult, i.type] for i in recipes1]
+        recipes = []
+        for i in recipes1:
+            g = [0, len(products), len(type)]
+            goggole = 0
+            if name.lower() in i[1].lower() and name:
+                goggole += 1
+            if difficult and i[6]:
+                if goggole == 0 and difficult.lower() in i[6].lower():
+                    goggole += 1
+            if products and i[5]:
+                for j in products:
+                    if goggole == 0 and j.lower() in i[5]:
+                        goggole += 1
+            if type and i[7]:
+                for j in type:
+                    if goggole == 0 and j.lower() in i[7].lower():
+                        goggole += 1
+            print('-----------------------')
+            print(goggole)
+            if name:
+                g[0] += 1
+            if type:
+                g[0] += 1
+            print(sum(g))
+            print('-----------------------')
+            if needofall == 'Yes':
+                print('YES')
+                if goggole == sum(g):
+                    print(goggole)
+                    recipes.append(i)
+            else:
+                if goggole >= 1:
+                    recipes.append(i)
+        print(recipes)
+        return redirect(url_for('all_recipes', recipes=recipes, username=username))
+@app.route("/recipe_filter_search", methods=['POST', 'GET'])
+def recipe_filter_search():
+    db_sess = db_session.create_session()
+    recipes = db_sess.query(Recipe).all()
+    recipes = [[i.id, i.name, i.description, i.image, i.author] for i in recipes]
+    # print(recipes)
+    return render_template('all_recipes.html', recipes=recipes)
+
+
 
 @app.route("/submit_menu_buttons", methods=['POST', 'GET'])
 def submit_menu_buttons():
@@ -154,7 +294,7 @@ def submit_menu_buttons():
 
     if request.form.get("menu-buttons") == "possible_recipes":
         log_move('is tap button possible_recipes', username)
-        return redirect(url_for('index'))
+        return redirect(url_for('recipe_filter', username=username))
 
     if request.form.get("menu-buttons") == "make_recipe":
         log_move('is tap button make_recipe', username)
@@ -223,13 +363,17 @@ def submit_make_recipe(username):
     if request.form.get('make_recipe') == 'make':
         log_move('is trying to make new recipe', username)
         db_sess = db_session.create_session()
-        user = db_sess.query(User).filter(User.name ==  str(username)).first()
+        user = db_sess.query(User).filter(User.name == str(username)).first()
         user_id = user.id
 
         recipe = Recipe()
 
         recipe.name = request.form.get('name')
         recipe.description = request.form.get('description')
+        recipe.products = str(request.form.getlist('ingredients'))
+        print(request.form.get('ingredients'))
+        recipe.difficult = request.form.get('recipe_dif')
+        recipe.type = str(request.form.getlist('recipe_types'))
         recipe.author = username
 
         file = request.files['image']
@@ -248,7 +392,29 @@ def submit_make_recipe(username):
 
     return redirect(url_for('profile', username=username))
 
+@app.route("/all_recipes", methods=['POST', 'GET'])
+def all_recipes():
+    db_sess = db_session.create_session()
+    recipes = db_sess.query(Recipe).all()
+    recipes = [[i.id, i.name, i.description, i.image, i.author] for i in recipes]
+    # print(recipes)
+    return render_template('all_recipes.html', recipes=recipes)
+
+
+@app.route("/submit_all_recipes", methods=['POST', 'GET'])
+def submit_all_recipes():
+    db_sess = db_session.create_session()
+    recipes = db_sess.query(Recipe).all()
+    recipes = [int(i.id) for i in recipes]
+    print(request.form.get('action'))
+    print(recipes)
+    if int(request.form.get('action')) in recipes:
+        recipe = db_sess.query(Recipe).filter(Recipe.id == int(request.form.get('action'))).first()
+
+        return str(recipe.description)
+    return redirect(url_for('all_recipes'))
+
 
 if __name__ == '__main__':
     db_session.global_init('db/db.db')
-    app.run(port=8080, host='127.0.0.2')
+    app.run(port=8080, host='127.0.0.1')

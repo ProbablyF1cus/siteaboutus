@@ -1,0 +1,93 @@
+.body {
+    padding: 0;
+    background-color: brown;
+}
+
+.cont-start {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.cont {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.submit-button {
+    background-color: rgb(161, 72, 9);
+    border: 1px solid bisque;
+    border-radius: 5px;
+    width: 175px;
+    height: 75px;
+    letter-spacing: 3px;
+    font-size: 25px;
+    box-shadow: 0 0 5px 0 bisque;
+    transition: all 100ms;
+}
+
+.submit-button:hover {
+    background-color: rgb(146, 61, 0);
+}
+
+.submit-button:active {
+    background-color: rgb(104, 43, 0);
+    box-shadow: 0 0 5px 0 bisque, 0 0 25px 5px bisque;
+}
+
+.input {
+    background-color: rgb(170, 77, 11);
+    width: 100%;
+}
+
+.cont-for-inputs {
+    width: 50%;
+    min-width: 300px;
+}
+
+.exit-button {
+    margin: 10px;
+    background-color: rgb(161, 72, 9);
+    border: 1px solid bisque;
+    border-radius: 5px;
+    width: 175px;
+    height: 75px;
+    letter-spacing: 3px;
+    font-size: 25px;
+    box-shadow: 0 0 5px 0 bisque;
+    transition: all 100ms;
+}
+
+.exit-button:hover {
+    background-color: rgb(146, 61, 0);
+}
+
+.exit-button:active {
+    background-color: rgb(104, 43, 0);
+    box-shadow: 0 0 5px 0 bisque, 0 0 25px 5px bisque;
+}
+
+.products4cooking {
+    margin-top: 20px;
+    width: 100%;
+}
+
+.products4cooking1 {
+    background-color: rgb(161, 72, 9);
+    font-size: 20px;
+    border: 1px solid bisque;
+    border-radius: 5px;
+    width: 100%;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.listofproducts {
+    background-color: rgb(175, 78, 8);
+    border: 1px solid bisque;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 5px;
+    color: bisque;
+    margin-bottom: 5px;
+}
