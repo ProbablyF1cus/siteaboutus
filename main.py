@@ -246,9 +246,13 @@ def submit_all_recipes(username):
     recipes2 = [f"like_{i.id}" for i in recipes]
     # print(request.form.get('action'))
     # print(recipes)
+
+    if request.form.get('action') == "quit":
+        return redirect(url_for('profile', username=username))
+
     if str(request.form.get('action')) in recipes1:
         recipe = db_sess.query(Recipe).filter(Recipe.id == int(request.form.get('action'))).first()
-        return str(recipe.description)
+        return redirect(url_for('recipe', username=username, id=recipe.id))
 
     if request.form.get('action') in recipes2:
         with open('static/likes.json', encoding="utf-8") as f:
@@ -264,7 +268,6 @@ def submit_all_recipes(username):
         with open('static/likes.json', 'w', encoding="utf-8") as f:
             res = json.dump(res, f)
 
-
         return redirect(url_for('all_recipes', username=username))
 
     return redirect(url_for('all_recipes', username=username))
@@ -274,9 +277,19 @@ def submit_all_recipes(username):
 def my_recipes(username: str):
     db_sess = db_session.create_session()
     recipes = db_sess.query(Recipe).filter(Recipe.author == username).all()
-    recipes = [[i.id, i.name, i.description, i.image, i.author] for i in recipes]
+    recipes = [[i.id, i.name, i.description, i.image, i.author, i.likes, i.difficult] for i in recipes]
     # print(recipes)
     return render_template('all_recipes.html', recipes=recipes, username=username)
+
+
+@app.route("/make_recipe/<username>/<id>")
+def recipe(username, id):
+    db_sess = db_session.create_session()
+    recipe = db_sess.query(Recipe).filter(Recipe.id == int(id)).first()
+    recipe = {"id": recipe.id, "name": recipe.name, "description": recipe.description, "author": recipe.author,
+           "difficult": recipe.difficult, "products": recipe.products, "type": recipe.type}
+
+    return render_template('recipe.html', username=username, recipe=recipe)
 
 
 if __name__ == '__main__':

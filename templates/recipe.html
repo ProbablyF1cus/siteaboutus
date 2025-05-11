@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/style_all_recipes.css">
+    <script src="../static/js/script.js" defer></script>
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+</head>
+<body style="background-color: brown;">
+    <form method="POST" action="/submit_all_recipes/{{username}}">
+        <header>
+          <div class="cont3">
+            <button type="submit" name="action" value="quit" class="btn btn-outline-danger">Quit</button>
+          </div>
+        </header>
+        <div class="cont">
+            <h1>{{recipe.name}}</h1>
+            <p>{{recipe.description}}</p>
+            <p>{{recipe.difficult}}</p>
+        </div>
+    </form>
+</body>
+</html>

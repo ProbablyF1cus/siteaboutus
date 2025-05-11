@@ -16,3 +16,11 @@
     flex-wrap: wrap;
     align-items: center;
 }
+
+.cont3 {
+    display: flex;
+    justify-content: start;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 20px;
+}

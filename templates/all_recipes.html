@@ -10,6 +10,11 @@
 </head>
 <body style="background-color: brown;">
 <form method="POST" action="/submit_all_recipes/{{username}}">
+<header>
+  <div class="cont3">
+    <button type="submit" name="action" value="quit" class="btn btn-outline-danger">Quit</button>
+  </div>
+</header>
 <div class="cont">
     {% for i in recipes %}
     <div class="my-card">
@@ -21,7 +26,7 @@
               <p class="card-text">Автор: {{i[4]}}</p>
               <div class="cont2">
                 <button type="submit" name="action" value={{i[0]}} class="btn btn-primary">Посмотреть</button>
-                <button type="submit" name="action" value="like_{{i[0]}}" class="btn btn-primary">❤</button>
+                <button type="submit" name="action" value="like_{{i[0]}}" class="btn">❤</button>
                 <p>{{i[5]}}</p>
               </div>
             </div>
