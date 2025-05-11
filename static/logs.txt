@@ -22,3 +22,33 @@ User someone is trying to sing_in at 2025-05-11 17:17:31.876413
 User Malef1cus is sing in at 2025-05-11 17:17:33.438442 
 User Malef1cus is tap button my_recommendations at 2025-05-11 17:20:30.427167 
 User Malef1cus is tap button rating at 2025-05-11 17:20:32.111561 
+User Malef1cus is tap button all_recipes at 2025-05-11 19:13:18.462895 
+User Malef1cus is tap button make_recipe at 2025-05-11 19:13:21.522203 
+User Malef1cus is trying to make new recipe at 2025-05-11 19:13:39.652184 
+User Malef1cus add a new recipe at 2025-05-11 19:13:39.654184 
+User Malef1cus is tap button all_recipes at 2025-05-11 19:13:40.775627 
+User Malef1cus is tap button all_recipes at 2025-05-11 19:14:37.970001 
+User Malef1cus is tap button my_recipes at 2025-05-11 19:14:40.004689 
+User Malef1cus is tap button make_recipe at 2025-05-11 19:14:43.546632 
+User Malef1cus is tap button all_recipes at 2025-05-11 19:14:44.773650 
+User Malef1cus is tap button my_recommendations at 2025-05-11 19:14:46.401708 
+User Malef1cus is tap button rating at 2025-05-11 19:14:47.971446 
+User Malef1cus is tap button make_recipe at 2025-05-11 19:14:49.907921 
+User Malef1cus is tap button all_recipes at 2025-05-11 19:15:28.558756 
+User Malef1cus is tap button my_recommendations at 2025-05-11 19:15:30.018563 
+User someone is trying to sing_in at 2025-05-11 19:16:14.985569 
+User Malef1cus is sing in at 2025-05-11 19:16:15.794953 
+User Malef1cus is tap button all_recipes at 2025-05-11 19:16:16.434796 
+User someone is trying to sing_up at 2025-05-11 19:16:30.312769 
+User Malef1cus is sing up at 2025-05-11 19:16:34.128350 
+User Malef1cus mistakes at Email(already exist) at 2025-05-11 19:16:36.335915 
+User Malef1cus mistakes at Email(already exist) at 2025-05-11 19:16:39.344594 
+User Malef1cus is sing in at 2025-05-11 19:16:42.150823 
+User Malef1cus is tap button all_recipes at 2025-05-11 19:16:43.984611 
+User Malef1cus is tap button make_recipe at 2025-05-11 19:16:45.833821 
+User Malef1cus is trying to make new recipe at 2025-05-11 19:17:40.379968 
+User Malef1cus add a new recipe at 2025-05-11 19:17:40.381967 
+User Malef1cus is tap button all_recipes at 2025-05-11 19:17:41.239853 
+User Malef1cus is tap button my_recommendations at 2025-05-11 19:17:44.444535 
+User Malef1cus is tap button rating at 2025-05-11 19:17:46.537687 
+User Malef1cus is tap button all_recipes at 2025-05-11 19:18:12.194306 

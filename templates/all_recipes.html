@@ -9,7 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
 </head>
 <body style="background-color: brown;">
-<form method="POST" action="/submit_all_recipes">
+<form method="POST" action="/submit_all_recipes/{{username}}">
 <div class="cont">
     {% for i in recipes %}
     <div class="my-card">
@@ -19,7 +19,11 @@
               <h5 class="card-title">{{i[1]}}</h5>
               <!-- <p class="card-text">{{i[2]}}</p> -->
               <p class="card-text">Автор: {{i[4]}}</p>
-              <button type="submit" name="action" value={{i[0]}} class="btn btn-primary">Посмотреть рецепт</button>
+              <div class="cont2">
+                <button type="submit" name="action" value={{i[0]}} class="btn btn-primary">Посмотреть</button>
+                <button type="submit" name="action" value="like_{{i[0]}}" class="btn btn-primary">❤</button>
+                <p>{{i[5]}}</p>
+              </div>
             </div>
         </div>
     </div>
