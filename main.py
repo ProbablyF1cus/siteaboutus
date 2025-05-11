@@ -221,6 +221,7 @@ def recipe_filter(username):
 @app.route("/submit_recipe_filter/<username>", methods=['POST', 'GET'])
 def submit_recipe_filter(username):
     if request.form.get('ifexit') == 'exit_':
+        log_move('is leaving submit_recipe_filter', 'someone')
         return render_template('profile.html', username=username)
     if request.form.get('search_recipe') == 'search':
         print('dsfapk[jmdpas')
@@ -236,6 +237,8 @@ def submit_recipe_filter(username):
         recipes1 = db_sess.query(Recipe).all()
         recipes1 = [[i.id, i.name, i.description, i.image, i.author, i.products, i.difficult, i.type] for i in recipes1]
         recipes = []
+        log_move(f'is search with this objects - Name: {name}, Products: {products}, Difficult: {difficult}, Type: {type}', username)
+
         for i in recipes1:
             g = [0, len(products), len(type)]
             goggole = 0
@@ -275,6 +278,7 @@ def submit_recipe_filter(username):
                 if goggole >= 1:
                     recipes.append(i)
         print(recipes)
+        log_move(f'is finding these recipes - {recipes}', 'someone')
         return render_template('all_recipes.html', recipes=recipes)
 
 
@@ -338,6 +342,8 @@ def set_image(username):
         filename = f'image_{user.id}.png'
 
         user.image = f'/{IMAGE_FOLDER}/{filename}'
+        log_move(f'set new image at their profile - {filename}', username)
+
         db_sess.commit()
 
         file.save(os.path.join(IMAGE_FOLDER, filename))
@@ -349,6 +355,7 @@ def set_image(username):
     all_names = [i.name for i in db_sess.query(User).filter(User.name != str(username))]
 
     if new_name not in all_names and new_name:
+        log_move(f'set new name at their profile - {new_name}', username)
         user = db_sess.query(User).filter(User.name == str(username)).first()
         user.name = str(new_name)
         db_sess.commit()
@@ -356,7 +363,7 @@ def set_image(username):
         return render_template('error2.html', error='Такое имя уже существует')
 
     username = user.name
-    log_move('set new image at their profile', username)
+    log_move('set smthg new at their profile', username)
 
     return redirect(url_for('profile', username=username))
 
@@ -395,7 +402,7 @@ def submit_make_recipe(username):
             file.save(os.path.join(IMAGE_RECIPE_FOLDER, filename))
         else:
             recipe.image = f'/static/img/none_image.png'
-
+        log_move('add a new recipe', username)
         db_sess.add(recipe)
         db_sess.commit()
 
@@ -419,7 +426,7 @@ def submit_all_recipes():
     print(recipes)
     if int(request.form.get('action')) in recipes:
         recipe = db_sess.query(Recipe).filter(Recipe.id == int(request.form.get('action'))).first()
-
+        log_move(f'tap on recipe {Recipe.id}', 'someone')
         return str(recipe.description)
     return redirect(url_for('all_recipes'))
 
