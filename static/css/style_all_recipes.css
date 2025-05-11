@@ -2,9 +2,17 @@
     display: flex;
     justify-content: flex-start;
     flex-wrap: wrap;
+    align-items: center;
 }
 
 .my-card {
     margin: 20px;
     min-width: 320px;
+}
+
+.cont2 {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    align-items: center;
 }

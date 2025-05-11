@@ -131,7 +131,7 @@ def submit_menu_buttons():
         return redirect(url_for('make_recipe', username=username))
 
     if request.form.get("menu-buttons") == "my_recipes":
-        return redirect(url_for('index'))
+        return redirect(url_for('my_recipes'))
 
 
 @app.route("/my_profile/<username>")
@@ -198,6 +198,10 @@ def submit_make_recipe(username):
         recipe.name = request.form.get('name')
         recipe.description = request.form.get('description')
         recipe.author = username
+        recipe.products = str(request.form.getlist('ingredients'))
+        recipe.difficult = request.form.get('recipe_dif')
+        recipe.type = str(request.form.getlist('recipe_types'))
+        recipe.likes = 0
 
         file = request.files['image']
 
@@ -220,7 +224,7 @@ def submit_make_recipe(username):
 def all_recipes():
     db_sess = db_session.create_session()
     recipes = db_sess.query(Recipe).all()
-    recipes = [[i.id, i.name, i.description, i.image, i.author] for i in recipes]
+    recipes = [[i.id, i.name, i.description, i.image, i.author, i.likes, i.difficult] for i in recipes]
     # print(recipes)
     return render_template('all_recipes.html', recipes=recipes)
 
@@ -229,15 +233,30 @@ def all_recipes():
 def submit_all_recipes():
     db_sess = db_session.create_session()
     recipes = db_sess.query(Recipe).all()
-    recipes = [int(i.id) for i in recipes]
+    recipes1 = [str(i.id) for i in recipes]
+    recipes2 = [f"like_{i.id}" for i in recipes]
     print(request.form.get('action'))
     print(recipes)
-    if int(request.form.get('action')) in recipes:
+    if str(request.form.get('action')) in recipes1:
         recipe = db_sess.query(Recipe).filter(Recipe.id == int(request.form.get('action'))).first()
-
         return str(recipe.description)
+
+    if request.form.get('action') in recipes2:
+        recipe = db_sess.query(Recipe).filter(Recipe.id == int(request.form.get('action').split('_')[1])).first()
+        recipe.likes += 1
+        db_sess.commit()
+        return redirect(url_for('all_recipes'))
+
     return redirect(url_for('all_recipes'))
 
+
+@app.route("/my_recipes", methods=['POST', 'GET'])
+def my_recipes():
+    db_sess = db_session.create_session()
+    recipes = db_sess.query(Recipe).filter()
+    recipes = [[i.id, i.name, i.description, i.image, i.author] for i in recipes]
+    # print(recipes)
+    return render_template('all_recipes.html', recipes=recipes)
 
 
 if __name__ == '__main__':
