@@ -18,3 +18,101 @@ User SOAD is tap button possible_recipes at 2025-05-11 11:08:05.900030
 User SOAD is search with this objects - Name: QWERTY, Products: [], Difficult: None, Type: [] at 2025-05-11 11:08:07.464759 
 User someone is finding these recipes - [[4, 'QWERTY', 'dsadsadasdasadsadsads', '/static/img/none_image.png', 'Malef1cus', '[]', None, '[]']] at 2025-05-11 11:08:07.464759 
 User SOAD is tap button all_recipes at 2025-05-11 11:08:09.605000 
+User Malef1cus is tap button my_recipes at 2025-05-11 11:10:55.641490 
+User Malef1cus is tap button make_recipe at 2025-05-11 11:10:56.926303 
+User Malef1cus is tap button possible_recipes at 2025-05-11 11:10:58.373879 
+User Malef1cus is tap button all_recipes at 2025-05-11 11:11:00.035092 
+User Malef1cus is tap button profile at 2025-05-11 11:11:01.731012 
+User Malef1cus is tap button possible_recipes at 2025-05-11 11:11:03.206440 
+User SOAD is tap button my_recommendations at 2025-05-11 11:18:33.344591 
+User SOAD is tap button my_recipes at 2025-05-11 11:18:35.420493 
+User SOAD is tap button rating at 2025-05-11 11:18:38.020772 
+User Malef1cus is sing in at 2025-05-11 11:18:44.253068 
+User Malef1cus is tap button my_recommendations at 2025-05-11 11:18:45.517373 
+User Malef1cus is tap button rating at 2025-05-11 11:18:47.718202 
+User Malef1cus is tap button possible_recipes at 2025-05-11 11:19:31.021882 
+User Malef1cus is tap button all_recipes at 2025-05-11 11:19:32.892662 
+User Malef1cus is tap button all_recipes at 2025-05-11 13:03:10.577097 
+User someone tap on recipe Recipe.id at 2025-05-11 13:03:11.546117 
+User Malef1cus is tap button all_recipes at 2025-05-11 13:15:08.569789 
+User Malef1cus is tap button make_recipe at 2025-05-11 13:15:23.517996 
+User Malef1cus is tap button profile at 2025-05-11 13:16:42.905961 
+User Malef1cus is tap button profile at 2025-05-11 13:18:00.680501 
+User Malef1cus is tap button profile at 2025-05-11 13:20:15.919971 
+User someone is leaving submit_recipe_filter at 2025-05-11 13:21:13.177754 
+User someone is leaving submit_recipe_filter at 2025-05-11 13:21:17.995623 
+User someone is leaving submit_recipe_filter at 2025-05-11 13:23:57.835685 
+User someone is leaving submit_recipe_filter at 2025-05-11 13:24:12.325762 
+User someone is leaving submit_recipe_filter at 2025-05-11 13:24:14.162091 
+User Malef1cus is tap button all_recipes at 2025-05-11 13:25:16.665560 
+User Malef1cus is tap button my_recipes at 2025-05-11 13:25:17.740751 
+User Malef1cus is tap button rating at 2025-05-11 13:25:19.646569 
+User someone is trying to sing_up at 2025-05-11 13:27:17.112317 
+User Malef1cus is sing up at 2025-05-11 13:27:22.802710 
+User Malef1cus is tap button all_recipes at 2025-05-11 13:27:37.603166 
+User Malef1cus is tap button possible_recipes at 2025-05-11 13:27:39.501816 
+User Malef1cus is tap button make_recipe at 2025-05-11 13:27:40.886199 
+User Malef1cus is tap button my_recommendations at 2025-05-11 13:27:42.122613 
+User Malef1cus is tap button rating at 2025-05-11 13:27:43.902892 
+User Malef1cus is tap button my_recommendations at 2025-05-11 13:27:45.594743 
+User Malef1cus is tap button profile at 2025-05-11 13:30:12.404622 
+User Malef1cus is tap button profile at 2025-05-11 13:30:15.377690 
+User Malef1cus is tap button profile at 2025-05-11 13:30:18.662302 
+User Malef1cus set new image at their profile - image_1.png at 2025-05-11 13:34:23.890524 
+User Malef1cus set new name at their profile - Malef1cus at 2025-05-11 13:34:23.901393 
+User Malef1cus set smthg new at their profile at 2025-05-11 13:34:23.903501 
+User Malef1cus is tap button profile at 2025-05-11 13:34:24.866257 
+User Malef1cus set new name at their profile - Malef1cus at 2025-05-11 13:39:29.391142 
+User Malef1cus set smthg new at their profile at 2025-05-11 13:39:29.394148 
+User Malef1cus set new name at their profile - Malef1cus at 2025-05-11 13:39:39.964809 
+User Malef1cus set smthg new at their profile at 2025-05-11 13:39:39.965809 
+User Malef1cus set new name at their profile - Malef1cus at 2025-05-11 13:39:41.295560 
+User Malef1cus set smthg new at their profile at 2025-05-11 13:39:41.296561 
+User someone is trying to sing_in at 2025-05-11 13:45:50.879380 
+User someone is trying to sing_in at 2025-05-11 13:47:04.137294 
+User Malef1cus is sing in at 2025-05-11 13:47:05.115318 
+User Malef1cus is tap button profile at 2025-05-11 13:47:06.062524 
+User Malef1cus is tap button profile at 2025-05-11 13:47:34.489529 
+User someone is trying to sing_in at 2025-05-11 13:48:40.781056 
+User Malef1cus is sing in at 2025-05-11 13:48:41.927361 
+User Malef1cus is tap button all_recipes at 2025-05-11 13:48:42.700822 
+User Malef1cus is tap button my_recommendations at 2025-05-11 13:49:27.338336 
+User Malef1cus is tap button my_recommendations at 2025-05-11 13:50:51.720821 
+User Malef1cus is tap button rating at 2025-05-11 13:50:53.197838 
+User Malef1cus is tap button my_recipes at 2025-05-11 13:50:54.718824 
+User Malef1cus is tap button my_recommendations at 2025-05-11 13:50:56.214730 
+User Malef1cus is tap button make_recipe at 2025-05-11 13:52:00.522293 
+User Malef1cus is trying to make new recipe at 2025-05-11 13:52:17.875277 
+User Malef1cus add a new recipe at 2025-05-11 13:52:17.880785 
+User Malef1cus is tap button all_recipes at 2025-05-11 13:52:18.937792 
+User Malef1cus is tap button make_recipe at 2025-05-11 14:51:06.507308 
+User Malef1cus is trying to make new recipe at 2025-05-11 14:51:09.407102 
+User Malef1cus add a new recipe at 2025-05-11 14:51:09.414052 
+User Malef1cus is tap button all_recipes at 2025-05-11 14:51:10.164020 
+User Malef1cus is tap button all_recipes at 2025-05-11 14:53:08.457408 
+User someone tap on recipe <data.recipes.Recipe object at 0x000001A0F57E4350> at 2025-05-11 14:53:09.244883 
+User someone tap on recipe <data.recipes.Recipe object at 0x000001A0F57E7770> at 2025-05-11 14:53:09.675966 
+User someone tap on recipe <data.recipes.Recipe object at 0x000001A0F57E64B0> at 2025-05-11 14:53:10.062264 
+User someone tap on recipe <data.recipes.Recipe object at 0x000001A0F57FEAB0> at 2025-05-11 14:53:10.420462 
+User someone tap on recipe <data.recipes.Recipe object at 0x000001A0F57FC860> at 2025-05-11 14:53:10.685501 
+User someone tap on recipe <data.recipes.Recipe object at 0x000001A0F57FD820> at 2025-05-11 14:53:11.202421 
+User someone tap on recipe <data.recipes.Recipe object at 0x000001A0F57FF6E0> at 2025-05-11 14:53:12.031878 
+User someone tap on recipe <data.recipes.Recipe object at 0x000001A0F57FD3A0> at 2025-05-11 14:53:12.756911 
+User Malef1cus is tap button all_recipes at 2025-05-11 14:53:42.991963 
+User someone tap on recipe Recipe.id at 2025-05-11 14:53:43.668676 
+User someone tap on recipe Recipe.id at 2025-05-11 14:53:44.987200 
+User Malef1cus is tap button profile at 2025-05-11 14:53:46.607997 
+User someone is leaving submit_recipe_filter at 2025-05-11 14:53:49.113071 
+User Malef1cus is tap button my_recommendations at 2025-05-11 14:53:55.781481 
+User Malef1cus is tap button my_recommendations at 2025-05-11 15:00:55.881047 
+User Malef1cus is tap button my_recommendations at 2025-05-11 15:00:58.497084 
+User someone tap on recipe Recipe.id at 2025-05-11 15:01:06.621129 
+User someone is trying to sing_in at 2025-05-11 15:19:51.454835 
+User Malef1cus is sing in at 2025-05-11 15:19:52.754413 
+User Malef1cus is tap button make_recipe at 2025-05-11 16:29:41.385955 
+User Malef1cus is tap button make_recipe at 2025-05-11 16:30:47.432356 
+User Malef1cus is tap button all_recipes at 2025-05-11 16:34:03.868685 
+User Malef1cus is tap button make_recipe at 2025-05-11 16:34:06.096195 
+User Malef1cus is tap button rating at 2025-05-11 16:38:23.758543 
+User Malef1cus is tap button my_recipes at 2025-05-11 16:38:25.158130 
+User Malef1cus is tap button possible_recipes at 2025-05-11 16:38:26.504482 

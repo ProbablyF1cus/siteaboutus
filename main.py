@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, make_response, redirect, url_
 from data.users import User
 from data.recipes import Recipe
 from data import db_session
+import random
 import datetime
 import os
 
@@ -15,13 +16,16 @@ recipes = [{
     "description": None,
     "image_url": f"/static/uploads/{None}"}]
 
+
 def allowed_file(filename):
     return filename.count('.') == 1 and filename.split('.')[1].lower() in ['png', 'jpg', 'jpeg']
+
 
 def log_move(name_move, user):
     f = open("static/logs.txt", 'a')
     print(f.write(f'User {user} {name_move} at {datetime.datetime.now()} \n'))
     f.close()
+
 
 def transliteration(word):
     slob = {
@@ -103,6 +107,7 @@ def transliteration(word):
             gol.append(" ")
     return "".join(gol)
 
+
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/main', methods=['GET', 'POST'])
 def index():
@@ -115,7 +120,7 @@ def index_form():
     if action == "sing_up":
         log_move('is trying to sing_up', 'someone')
         return redirect(url_for("sing_up"))
-    if action == "sing_in" :
+    if action == "sing_in":
         log_move('is trying to sing_in', 'someone')
         return redirect(url_for("sing_in"))
 
@@ -130,6 +135,31 @@ def my_recipes(username):
         if username == i[4]:
             recipes.append(i)
     # print(recipes)
+    return render_template('all_recipes.html', recipes=recipes)
+
+
+@app.route("/my_recommendations/<username>", methods=['POST', 'GET'])
+def my_recommendations(username):
+    db_sess = db_session.create_session()
+    recipes = db_sess.query(Recipe).all()
+    recipes = [[i.id, i.name, i.description, i.image, i.author] for i in recipes]
+    # print(recipes)
+    random.shuffle(recipes)
+    recipes = recipes[:20]
+    return render_template('all_recipes.html', recipes=recipes)
+
+
+@app.route("/rating/<username>", methods=['POST', 'GET'])
+def rating(username):
+    db_sess = db_session.create_session()
+    recipes1 = db_sess.query(Recipe).all()
+    recipes1 = [[i.id, i.name, i.description, i.image, i.author] for i in recipes1]
+    recipes = []
+    for i in recipes1:
+        if username == i[4]:
+            recipes.append(i)
+    # print(recipes)
+    db_sess.close()
     return render_template('all_recipes.html', recipes=recipes)
 
 
@@ -225,6 +255,7 @@ def profile(username):
 
     return render_template('profile.html', username=username, image=image)
 
+
 @app.route("/recipe_filter/<username>", methods=['GET', 'POST'])
 def recipe_filter(username):
     return render_template('recipe_filter.html', username=username)
@@ -234,7 +265,7 @@ def recipe_filter(username):
 def submit_recipe_filter(username):
     if request.form.get('ifexit') == 'exit_':
         log_move('is leaving submit_recipe_filter', 'someone')
-        return render_template('profile.html', username=username)
+        return redirect(url_for('profile', username=username))
     if request.form.get('search_recipe') == 'search':
         print('dsfapk[jmdpas')
         name = request.form.get('name')
@@ -249,7 +280,9 @@ def submit_recipe_filter(username):
         recipes1 = db_sess.query(Recipe).all()
         recipes1 = [[i.id, i.name, i.description, i.image, i.author, i.products, i.difficult, i.type] for i in recipes1]
         recipes = []
-        log_move(f'is search with this objects - Name: {name}, Products: {products}, Difficult: {difficult}, Type: {type}', username)
+        log_move(
+            f'is search with this objects - Name: {name}, Products: {products}, Difficult: {difficult}, Type: {type}',
+            username)
 
         for i in recipes1:
             g = [0, len(products), len(type)]
@@ -303,7 +336,6 @@ def recipe_filter_search():
     return render_template('all_recipes.html', recipes=recipes)
 
 
-
 @app.route("/submit_menu_buttons", methods=['POST', 'GET'])
 def submit_menu_buttons():
     username = request.form.get("username")
@@ -311,11 +343,11 @@ def submit_menu_buttons():
     if request.form.get("menu-buttons") == "profile":
         log_move('is tap button profile', username)
         return redirect(url_for('my_profile', username
-=username))
+        =username))
 
     if request.form.get("menu-buttons") == "all_recipes":
         log_move('is tap button all_recipes', username)
-        return redirect(url_for('all_recipes'))
+        return redirect(url_for('all_recipes', username=username))
 
     if request.form.get("menu-buttons") == "possible_recipes":
         log_move('is tap button possible_recipes', username)
@@ -328,6 +360,12 @@ def submit_menu_buttons():
     if request.form.get("menu-buttons") == "my_recipes":
         log_move('is tap button my_recipes', username)
         return redirect(url_for('my_recipes', username=username))
+    if request.form.get("menu-buttons") == "my_recommendations":
+        log_move('is tap button my_recommendations', username)
+        return redirect(url_for('my_recommendations', username=username))
+    if request.form.get("menu-buttons") == "rating":
+        log_move('is tap button rating', username)
+        return redirect(url_for('rating', username=username))
 
 
 @app.route("/my_profile/<username>")
@@ -342,9 +380,9 @@ def my_profile(username):
 @app.route("/set_profile/<username>", methods=['POST', 'GET'])
 def set_image(username):
     file = request.files['image']
-
+    if request.form.get("leave_in_acc") == "leave":
+        return redirect(url_for('index'))
     if file.filename != '':
-
         if not allowed_file(file.filename):
             return render_template('error2.html', error='файл не соответствует формату(png, jpg, jpeg)')
 
@@ -419,6 +457,7 @@ def submit_make_recipe(username):
         db_sess.commit()
 
     return redirect(url_for('profile', username=username))
+
 
 @app.route("/all_recipes", methods=['POST', 'GET'])
 def all_recipes():

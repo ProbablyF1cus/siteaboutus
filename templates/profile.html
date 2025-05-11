@@ -26,7 +26,7 @@
 <main>
     <div class="cont">
         <div class="menu-for-buttons">
-            {% set buttons = [["Все рецепты", "all_recipes"], ["Поиск по фильтрам", "possible_recipes"], ["Создать свой рецепт", "make_recipe"], ["Мои рецепты", "my_recipes"]] %}
+            {% set buttons = [["Все рецепты", "all_recipes"], ["Поиск по фильтрам", "possible_recipes"], ["Создать свой рецепт", "make_recipe"], ["Мои рецепты", "my_recipes"], ["Мои рекомендации", "my_recommendations"], ["Рейтинг", "rating"]] %}
             {% for i in buttons %}
                 <div class="">
                     <button class="btn btn-outline-warning m-3" name="menu-buttons" value={{ i[1] }} type="submit">{{ i[0] }}</button>

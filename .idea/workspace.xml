@@ -4,8 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8a7ce2f3-a4d3-4faf-8f68-5110ad0828f2" name="Changes" comment="Новые логи">
+    <list default="true" id="8a7ce2f3-a4d3-4faf-8f68-5110ad0828f2" name="Changes" comment="Реализация показа своих рецептов">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/users.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/users.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/db.db" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/img/images-of-recipes/image_1.png" beforeDir="false" afterPath="$PROJECT_DIR$/static/img/images-of-recipes/image_1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/logs.txt" beforeDir="false" afterPath="$PROJECT_DIR$/static/logs.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/my_profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/my_profile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/profile.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/profile.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/recipe_filter.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/recipe_filter.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -145,7 +153,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746950622531</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Реализация показа своих рецептов">
+      <option name="closed" value="true" />
+      <created>1746950904919</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1746950904919</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -155,6 +171,7 @@
     <MESSAGE value="Фильтры + мелочь" />
     <MESSAGE value="Фильтры теперь полностью работают" />
     <MESSAGE value="Новые логи" />
-    <option name="LAST_COMMIT_MESSAGE" value="Новые логи" />
+    <MESSAGE value="Реализация показа своих рецептов" />
+    <option name="LAST_COMMIT_MESSAGE" value="Реализация показа своих рецептов" />
   </component>
 </project>
