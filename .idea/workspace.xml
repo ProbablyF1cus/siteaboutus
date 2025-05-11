@@ -4,7 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8a7ce2f3-a4d3-4faf-8f68-5110ad0828f2" name="Changes" comment="Исправление багов+проблемы с пайчармом" />
+    <list default="true" id="8a7ce2f3-a4d3-4faf-8f68-5110ad0828f2" name="Changes" comment="Пояснительная записка">
+      <change afterPath="$PROJECT_DIR$/static/likes.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/recipes.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/recipes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/db.db" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/css/style_all_recipes.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/style_all_recipes.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/logs.txt" beforeDir="false" afterPath="$PROJECT_DIR$/static/logs.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/all_recipes.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/all_recipes.html" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -38,12 +47,13 @@
     &quot;Python.users.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/vladv/PycharmProjects/EasyCooking&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/vladv/PycharmProjects/EasyCooking/static&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\vladv\PycharmProjects\EasyCooking\static" />
       <recent name="C:\Users\vladv\PycharmProjects\EasyCooking" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -183,7 +193,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746973258234</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Пояснительная записка">
+      <option name="closed" value="true" />
+      <created>1746973710110</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1746973710110</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -216,19 +234,7 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="master" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
+            <State />
           </value>
         </entry>
       </map>
@@ -242,6 +248,7 @@
     <MESSAGE value="Фильтры теперь полностью работают" />
     <MESSAGE value="Новые логи" />
     <MESSAGE value="Исправление багов+проблемы с пайчармом" />
-    <option name="LAST_COMMIT_MESSAGE" value="Исправление багов+проблемы с пайчармом" />
+    <MESSAGE value="Пояснительная записка" />
+    <option name="LAST_COMMIT_MESSAGE" value="Пояснительная записка" />
   </component>
 </project>
