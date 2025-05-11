@@ -116,3 +116,12 @@ User Malef1cus is tap button make_recipe at 2025-05-11 16:34:06.096195
 User Malef1cus is tap button rating at 2025-05-11 16:38:23.758543 
 User Malef1cus is tap button my_recipes at 2025-05-11 16:38:25.158130 
 User Malef1cus is tap button possible_recipes at 2025-05-11 16:38:26.504482 
+User someone is trying to sing_in at 2025-05-11 16:57:22.334396 
+User Malef1cus is sing in at 2025-05-11 16:57:23.316164 
+User Malef1cus is tap button my_recommendations at 2025-05-11 16:57:24.373067 
+User Malef1cus is tap button rating at 2025-05-11 16:57:25.600450 
+User Malef1cus is tap button my_recommendations at 2025-05-11 16:57:26.727693 
+User Malef1cus is tap button my_recipes at 2025-05-11 16:57:28.298131 
+User Malef1cus is tap button my_recommendations at 2025-05-11 16:57:29.646052 
+User Malef1cus is tap button possible_recipes at 2025-05-11 16:57:31.755986 
+User Malef1cus is tap button all_recipes at 2025-05-11 16:57:33.337050 

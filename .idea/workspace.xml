@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8a7ce2f3-a4d3-4faf-8f68-5110ad0828f2" name="Changes" comment="Пояснительная записка" />
+    <list default="true" id="8a7ce2f3-a4d3-4faf-8f68-5110ad0828f2" name="Changes" comment="Новые логи" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -197,7 +197,31 @@
       <option name="project" value="LOCAL" />
       <updated>1746971384524</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Пояснительная записка">
+      <option name="closed" value="true" />
+      <created>1746971492878</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1746971492878</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Бета-рекомендации, исправление багов">
+      <option name="closed" value="true" />
+      <created>1746971766846</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1746971766846</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Новые логи">
+      <option name="closed" value="true" />
+      <created>1746971785086</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1746971785086</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -206,10 +230,10 @@
     <MESSAGE value="Работа с make recipes" />
     <MESSAGE value="Фильтры + мелочь" />
     <MESSAGE value="Фильтры теперь полностью работают" />
-    <MESSAGE value="Новые логи" />
-    <MESSAGE value="Бета-рекомендации, исправление багов" />
     <MESSAGE value="Реализация показа своих рецептов" />
     <MESSAGE value="Пояснительная записка" />
-    <option name="LAST_COMMIT_MESSAGE" value="Пояснительная записка" />
+    <MESSAGE value="Бета-рекомендации, исправление багов" />
+    <MESSAGE value="Новые логи" />
+    <option name="LAST_COMMIT_MESSAGE" value="Новые логи" />
   </component>
 </project>
