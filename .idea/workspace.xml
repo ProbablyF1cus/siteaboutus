@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="8a7ce2f3-a4d3-4faf-8f68-5110ad0828f2" name="Changes" comment="Пояснительная записка">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/logs.txt" beforeDir="false" afterPath="$PROJECT_DIR$/static/logs.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -216,7 +218,15 @@
       <option name="project" value="LOCAL" />
       <updated>1746978830063</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Пояснительная записка">
+      <option name="closed" value="true" />
+      <created>1746979090474</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1746979090474</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

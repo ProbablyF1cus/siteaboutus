@@ -28,3 +28,9 @@ User Malef1cus is tap button all_recipes at 2025-05-11 18:28:30.889349
 User someone is trying to sing_in at 2025-05-11 18:41:17.305574 
 User Malef1cus is sing in at 2025-05-11 18:41:17.977292 
 User Malef1cus is tap button all_recipes at 2025-05-11 18:41:18.637441 
+User someone is trying to sing_in at 2025-05-11 19:04:34.914606 
+User Malef1cus mistakes at smthg(user is not founded) at 2025-05-11 19:04:36.393885 
+User Malef1cus is sing up at 2025-05-11 19:04:42.997253 
+User Malef1cus is tap button all_recipes at 2025-05-11 19:04:45.503781 
+User Malef1cus is tap button my_recommendations at 2025-05-11 19:04:47.809783 
+User Malef1cus is tap button rating at 2025-05-11 19:04:49.600297 
