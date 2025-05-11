@@ -120,6 +120,18 @@ def index_form():
         return redirect(url_for("sing_in"))
 
 
+@app.route("/my_recipes/<username>", methods=['POST', 'GET'])
+def my_recipes(username):
+    db_sess = db_session.create_session()
+    recipes1 = db_sess.query(Recipe).all()
+    recipes1 = [[i.id, i.name, i.description, i.image, i.author] for i in recipes1]
+    recipes = []
+    for i in recipes1:
+        if username == i[4]:
+            recipes.append(i)
+    # print(recipes)
+    return render_template('all_recipes.html', recipes=recipes)
+
 
 @app.route("/sing_up")
 def sing_up():
@@ -315,7 +327,7 @@ def submit_menu_buttons():
 
     if request.form.get("menu-buttons") == "my_recipes":
         log_move('is tap button my_recipes', username)
-        return redirect(url_for('index'))
+        return redirect(url_for('my_recipes', username=username))
 
 
 @app.route("/my_profile/<username>")

@@ -5,3 +5,16 @@ User someone tap on recipe <data.recipes.Recipe object at 0x000002D4989CEC60> at
 User Malef1cus is tap button make_recipe at 2025-05-11 11:02:55.664046 
 User Malef1cus is trying to make new recipe at 2025-05-11 11:03:02.704516 
 User Malef1cus set add a new recipe at 2025-05-11 11:03:02.707526 
+User someone is trying to sing_in at 2025-05-11 11:07:03.272098 
+User Malef1cus is sing in at 2025-05-11 11:07:04.400726 
+User Malef1cus is tap button my_recipes at 2025-05-11 11:07:04.957777 
+User Malef1cus is tap button my_recipes at 2025-05-11 11:07:21.853068 
+User SOAD is sing up at 2025-05-11 11:07:50.376963 
+User SOAD is tap button profile at 2025-05-11 11:07:55.151985 
+User SOAD is tap button make_recipe at 2025-05-11 11:07:58.591954 
+User SOAD is tap button my_recipes at 2025-05-11 11:07:59.733180 
+User SOAD is tap button all_recipes at 2025-05-11 11:08:01.977489 
+User SOAD is tap button possible_recipes at 2025-05-11 11:08:05.900030 
+User SOAD is search with this objects - Name: QWERTY, Products: [], Difficult: None, Type: [] at 2025-05-11 11:08:07.464759 
+User someone is finding these recipes - [[4, 'QWERTY', 'dsadsadasdasadsadsads', '/static/img/none_image.png', 'Malef1cus', '[]', None, '[]']] at 2025-05-11 11:08:07.464759 
+User SOAD is tap button all_recipes at 2025-05-11 11:08:09.605000 
