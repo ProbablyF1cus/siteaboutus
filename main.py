@@ -140,7 +140,7 @@ def submit_menu_buttons():
         return redirect(url_for('make_recipe', username=username))
 
     if request.form.get("menu-buttons") == "my_recipes":
-        return redirect(url_for('my_recipes'))
+        return redirect(url_for('my_recipes', username=username))
 
 
 @app.route("/my_profile/<username>")
@@ -270,7 +270,7 @@ def submit_all_recipes(username):
     return redirect(url_for('all_recipes', username=username))
 
 
-@app.route("/my_recipes/username", methods=['POST', 'GET'])
+@app.route("/my_recipes/<username>", methods=['POST', 'GET'])
 def my_recipes(username: str):
     db_sess = db_session.create_session()
     recipes = db_sess.query(Recipe).filter(Recipe.author == username).all()
