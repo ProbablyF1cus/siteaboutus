@@ -225,6 +225,7 @@ def submit_recipe_filter(username):
     if request.form.get('search_recipe') == 'search':
         print('dsfapk[jmdpas')
         name = request.form.get('name')
+        name1 = transliteration(name)
         description = request.form.get('description')
         products = request.form.getlist('ingredients')
         difficult = request.form.get('recipe_dif')
@@ -238,24 +239,30 @@ def submit_recipe_filter(username):
         for i in recipes1:
             g = [0, len(products), len(type)]
             goggole = 0
-            if name.lower() in i[1].lower() and name:
+            print(name, i[1])
+            if (name.lower() in i[1].lower() or name1.lower() in i[1].lower()) and name:
                 goggole += 1
             if difficult and i[6]:
-                if goggole == 0 and difficult.lower() in i[6].lower():
+                print(difficult.lower(), i[6])
+                if difficult.lower() in i[6].lower():
                     goggole += 1
             if products and i[5]:
+                print(products, i[5])
                 for j in products:
-                    if goggole == 0 and j.lower() in i[5]:
+                    print(j, i[5])
+                    if j.lower() in i[5]:
                         goggole += 1
             if type and i[7]:
+                print(type, i[7])
                 for j in type:
-                    if goggole == 0 and j.lower() in i[7].lower():
+                    print(j, i[7])
+                    if j.lower() in i[7].lower():
                         goggole += 1
             print('-----------------------')
             print(goggole)
             if name:
                 g[0] += 1
-            if type:
+            if difficult:
                 g[0] += 1
             print(sum(g))
             print('-----------------------')
@@ -268,7 +275,9 @@ def submit_recipe_filter(username):
                 if goggole >= 1:
                     recipes.append(i)
         print(recipes)
-        return redirect(url_for('all_recipes', recipes=recipes, username=username))
+        return render_template('all_recipes.html', recipes=recipes)
+
+
 @app.route("/recipe_filter_search", methods=['POST', 'GET'])
 def recipe_filter_search():
     db_sess = db_session.create_session()
