@@ -127,16 +127,12 @@ def index_form():
 
 
 @app.route("/my_recipes/<username>", methods=['POST', 'GET'])
-def my_recipes(username):
+def my_recipes(username: str):
     db_sess = db_session.create_session()
-    recipes1 = db_sess.query(Recipe).all()
-    recipes1 = [[i.id, i.name, i.description, i.image, i.author] for i in recipes1]
-    recipes = []
-    for i in recipes1:
-        if username == i[4]:
-            recipes.append(i)
+    recipes = db_sess.query(Recipe).filter(Recipe.author == username).all()
+    recipes = [[i.id, i.name, i.description, i.image, i.author] for i in recipes]
     # print(recipes)
-    return render_template('all_recipes.html', recipes=recipes)
+    return render_template('all_recipes.html', recipes=recipes, username=username)
 
 
 @app.route("/my_recommendations/<username>", methods=['POST', 'GET'])
@@ -173,7 +169,6 @@ def sing_up():
 def sing_in():
     return render_template('sing_in.html')
 
-
 @app.route("/submit_sing_up", methods=['POST', 'GET'])
 def submit_sing_up():
     if request.form.get("submit_sing_up") == "go_to_sing_in":
@@ -187,25 +182,19 @@ def submit_sing_up():
     password = request.form.get("password")
     password2 = request.form.get("confirm_password")
     if "@" not in email or len(email) < 5:
-        log_move('mistakes at email', username)
         return render_template("error.html", error="Некорректный Email")
     if len(username) < 3 or '/' in username:
-        log_move('mistakes at username', username)
         return render_template("error.html", error="Короткий username")
     if len(password) < 3:
-        log_move('mistakes at password(too short)', username)
         return render_template("error.html", error="Короткий password")
     if password != password2:
-        log_move('mistakes at password(they are different)', username)
         return render_template("error.html", error="Пароли не совпадают")
     db_sess = db_session.create_session()
 
     if email in [i.email for i in db_sess.query(User).all()]:
-        log_move('mistakes at Email(already exist)', username)
         return render_template("error.html", error="Такой Email уже зарегестрирован")
 
     if username in [i.name for i in db_sess.query(User).all()]:
-        log_move('mistakes at Username(already exist)', username)
         return render_template("error.html", error="Такой Username уже зарегестрирован")
 
     user = User()
@@ -215,7 +204,6 @@ def submit_sing_up():
 
     db_sess.add(user)
     db_sess.commit()
-    log_move('is sing up', username)
 
     with open('static/likes.json', encoding="utf-8") as f:
         res = json.load(f)
@@ -224,8 +212,8 @@ def submit_sing_up():
 
     with open('static/likes.json', 'w', encoding="utf-8") as f:
         res = json.dump(res, f)
-    return redirect(url_for('profile', username=username))
 
+    return redirect(url_for('profile', username=username))
 
 @app.route("/submit_sing_in", methods=['POST', 'GET'])
 def submit_sing_in():
@@ -242,16 +230,14 @@ def submit_sing_in():
 
     user = db_sess.query(User).filter(User.name == username).first()
     if not user:
-        log_move('mistakes at smthg(user is not founded)', username)
         return render_template('error.html', error='Такого пользователя не существует')
 
     if user.password != password:
-        log_move('mistakes at password(password is wrong)', username)
         return render_template('error.html', error='Неправильный пароль')
 
     db_sess.commit()
     db_sess.close()
-    log_move('is sing in', username)
+
     return redirect(url_for('profile', username=username))
 
 
@@ -469,7 +455,6 @@ def submit_make_recipe(username):
     return redirect(url_for('profile', username=username))
 
 
-
 @app.route("/all_recipes/<username>", methods=['POST', 'GET'])
 def all_recipes(username):
     db_sess = db_session.create_session()
@@ -477,7 +462,6 @@ def all_recipes(username):
     recipes = [[i.id, i.name, i.description, i.image, i.author, i.likes, i.difficult] for i in recipes]
     # print(recipes)
     return render_template('all_recipes.html', recipes=recipes, username=username)
-
 
 @app.route("/submit_all_recipes/<username>", methods=['POST', 'GET'])
 def submit_all_recipes(username):

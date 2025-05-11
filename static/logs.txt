@@ -52,3 +52,48 @@ User Malef1cus is tap button all_recipes at 2025-05-11 19:17:41.239853
 User Malef1cus is tap button my_recommendations at 2025-05-11 19:17:44.444535 
 User Malef1cus is tap button rating at 2025-05-11 19:17:46.537687 
 User Malef1cus is tap button all_recipes at 2025-05-11 19:18:12.194306 
+User someone is trying to sing_in at 2025-05-11 19:30:08.880097 
+User Malef1cus is sing in at 2025-05-11 19:30:09.955592 
+User Malef1cus is tap button all_recipes at 2025-05-11 19:30:13.032950 
+User someone is trying to sing_up at 2025-05-11 19:31:12.992147 
+User Malef1cus is sing up at 2025-05-11 19:31:15.597325 
+User Malef1cus mistakes at Email(already exist) at 2025-05-11 19:31:18.974903 
+User someone is trying to sing_up at 2025-05-11 19:31:34.633774 
+User Malef1cus is sing up at 2025-05-11 19:31:38.403157 
+User Malef1cus mistakes at Email(already exist) at 2025-05-11 19:31:43.208773 
+User someone is trying to sing_up at 2025-05-11 19:33:48.937352 
+User Malef1cus is tap button profile at 2025-05-11 19:34:16.024973 
+User Malef1cus set new image at their profile - image_1.png at 2025-05-11 19:34:19.625534 
+User Malef1cus set new name at their profile - Malef1cus at 2025-05-11 19:34:19.637048 
+User Malef1cus set smthg new at their profile at 2025-05-11 19:34:19.639046 
+User Malef1cus is tap button all_recipes at 2025-05-11 19:34:20.559775 
+User Malef1cus is tap button make_recipe at 2025-05-11 19:34:22.978865 
+User Malef1cus is trying to make new recipe at 2025-05-11 19:34:38.204266 
+User Malef1cus add a new recipe at 2025-05-11 19:34:38.205265 
+User Malef1cus is tap button all_recipes at 2025-05-11 19:34:38.740745 
+User Malef1cus is tap button my_recommendations at 2025-05-11 19:34:49.904959 
+User Malef1cus is tap button all_recipes at 2025-05-11 19:36:17.228102 
+User someone is trying to sing_up at 2025-05-11 19:38:21.772776 
+User Malef1cus1 is tap button profile at 2025-05-11 19:40:30.116782 
+User someone is trying to sing_up at 2025-05-11 19:40:46.220775 
+User someone is trying to sing_up at 2025-05-11 19:41:13.501499 
+User Malef1cus is tap button profile at 2025-05-11 19:41:20.461041 
+User Malef1cus set new image at their profile - image_1.png at 2025-05-11 19:41:29.574372 
+User Malef1cus set new name at their profile - Malef1cus at 2025-05-11 19:41:29.583876 
+User Malef1cus set smthg new at their profile at 2025-05-11 19:41:29.586886 
+User Malef1cus is tap button make_recipe at 2025-05-11 19:41:38.450683 
+User Malef1cus is trying to make new recipe at 2025-05-11 19:42:01.039048 
+User Malef1cus add a new recipe at 2025-05-11 19:42:01.042045 
+User Malef1cus is tap button possible_recipes at 2025-05-11 19:42:01.855779 
+User Malef1cus is tap button possible_recipes at 2025-05-11 19:42:03.564063 
+User Malef1cus is search with this objects - Name: QWERTY, Products: [], Difficult: None, Type: [] at 2025-05-11 19:42:06.007198 
+User someone is finding these recipes - [[1, 'QWERTY', '‚Ù˚‚Ù˚Ù‚Ò˚Ù‚˚‚Ù˚Ù‚˚Ù‚˚Ù‚˚‚Ù˚', '/static/img/images-of-recipes/image_1.png', 'Malef1cus', "['curd', 'cream', 'pork', 'lamb', 'banana']", 'hard', "['soup', 'salad']"]] at 2025-05-11 19:42:06.008199 
+User Malef1cus is tap button my_recommendations at 2025-05-11 19:42:12.942300 
+User Malef1cus is tap button rating at 2025-05-11 19:42:16.183304 
+User Malef1cus is tap button all_recipes at 2025-05-11 19:42:19.577343 
+User someone is trying to sing_in at 2025-05-11 20:28:49.603551 
+User Malef1cus is tap button all_recipes at 2025-05-11 20:28:51.835500 
+User Malef1cus is tap button all_recipes at 2025-05-11 20:29:05.640858 
+User Malef1cus is tap button my_recipes at 2025-05-11 20:29:16.733328 
+User Malef1cus is tap button possible_recipes at 2025-05-11 20:29:18.413497 
+User Malef1cus is tap button all_recipes at 2025-05-11 20:30:50.502234 
