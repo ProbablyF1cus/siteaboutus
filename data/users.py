@@ -10,3 +10,5 @@ class User(SqlAlchemyBase):
     email = sqlalchemy.Column(sqlalchemy.String, index=True, unique=True, nullable=True)
     password = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     image = sqlalchemy.Column(sqlalchemy.String, default='/static/img/none-user-image.png')
+    like_recipes = sqlalchemy.Column(sqlalchemy.String)
+    rating = sqlalchemy.Column(sqlalchemy.Integer)

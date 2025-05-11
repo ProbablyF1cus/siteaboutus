@@ -18,3 +18,7 @@ User SOAD is tap button possible_recipes at 2025-05-11 11:08:05.900030
 User SOAD is search with this objects - Name: QWERTY, Products: [], Difficult: None, Type: [] at 2025-05-11 11:08:07.464759 
 User someone is finding these recipes - [[4, 'QWERTY', 'dsadsadasdasadsadsads', '/static/img/none_image.png', 'Malef1cus', '[]', None, '[]']] at 2025-05-11 11:08:07.464759 
 User SOAD is tap button all_recipes at 2025-05-11 11:08:09.605000 
+User someone is trying to sing_in at 2025-05-11 17:17:31.876413 
+User Malef1cus is sing in at 2025-05-11 17:17:33.438442 
+User Malef1cus is tap button my_recommendations at 2025-05-11 17:20:30.427167 
+User Malef1cus is tap button rating at 2025-05-11 17:20:32.111561 
