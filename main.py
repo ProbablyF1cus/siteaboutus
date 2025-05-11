@@ -431,6 +431,7 @@ def all_recipes():
 
 
 
+
 @app.route("/submit_all_recipes", methods=['POST', 'GET'])
 def submit_all_recipes():
     db_sess = db_session.create_session()
