@@ -1,0 +1,555 @@
+Index: main.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from flask import Flask, render_template, request, make_response, redirect, url_for\r\nfrom data.users import User\r\nfrom data.recipes import Recipe\r\nfrom data import db_session\r\nimport os\r\nimport json\r\n\r\napp = Flask(__name__)\r\n\r\nIMAGE_FOLDER = 'static/img/images-of-users'\r\nIMAGE_RECIPE_FOLDER = 'static/img/images-of-recipes'\r\n\r\n\r\ndef allowed_file(filename):\r\n    return filename.count('.') == 1 and filename.split('.')[1].lower() in ['png', 'jpg', 'jpeg']\r\n\r\n\r\n@app.route('/', methods=['GET', 'POST'])\r\n@app.route('/main', methods=['GET', 'POST'])\r\ndef index():\r\n    return render_template('index.html')\r\n\r\n\r\n@app.route('/index', methods=['GET', 'POST'])\r\ndef index_form():\r\n    action = request.form.get(\"singing\")\r\n    if action == \"sing_up\":\r\n        return redirect(url_for(\"sing_up\"))\r\n    if action == \"sing_in\":\r\n        return redirect(url_for(\"sing_in\"))\r\n\r\n\r\n@app.route(\"/sing_up\")\r\ndef sing_up():\r\n    return render_template('sing_up.html')\r\n\r\n\r\n@app.route(\"/sing_in\")\r\ndef sing_in():\r\n    return render_template('sing_in.html')\r\n\r\n\r\n@app.route(\"/submit_sing_up\", methods=['POST', 'GET'])\r\ndef submit_sing_up():\r\n    if request.form.get(\"submit_sing_up\") == \"go_to_sing_in\":\r\n        return redirect(url_for('sing_in'))\r\n\r\n    if request.form.get(\"submit_sing_up\") == \"exit\":\r\n        return redirect(url_for('index'))\r\n\r\n    email = request.form.get(\"email\")\r\n    username = request.form.get(\"username\")\r\n    password = request.form.get(\"password\")\r\n    password2 = request.form.get(\"confirm_password\")\r\n    if \"@\" not in email or len(email) < 5:\r\n        return render_template(\"error.html\", error=\"Некорректный Email\")\r\n    if len(username) < 3 or '/' in username:\r\n        return render_template(\"error.html\", error=\"Короткий username\")\r\n    if len(password) < 3:\r\n        return render_template(\"error.html\", error=\"Короткий password\")\r\n    if password != password2:\r\n        return render_template(\"error.html\", error=\"Пароли не совпадают\")\r\n    db_sess = db_session.create_session()\r\n\r\n    if email in [i.email for i in db_sess.query(User).all()]:\r\n        return render_template(\"error.html\", error=\"Такой Email уже зарегестрирован\")\r\n\r\n    if username in [i.name for i in db_sess.query(User).all()]:\r\n        return render_template(\"error.html\", error=\"Такой Username уже зарегестрирован\")\r\n\r\n    user = User()\r\n    user.name = username\r\n    user.email = email\r\n    user.password = password\r\n\r\n    db_sess.add(user)\r\n    db_sess.commit()\r\n\r\n    with open('static/likes.json', encoding=\"utf-8\") as f:\r\n        res = json.load(f)\r\n\r\n    res[username] = []\r\n\r\n    with open('static/likes.json', 'w', encoding=\"utf-8\") as f:\r\n        res = json.dump(res, f)\r\n\r\n    return redirect(url_for('profile', username=username))\r\n\r\n\r\n@app.route(\"/submit_sing_in\", methods=['POST', 'GET'])\r\ndef submit_sing_in():\r\n    if request.form.get(\"submit_sing_in\") == \"go_to_sing_up\":\r\n        return redirect(url_for('sing_up'))\r\n\r\n    if request.form.get(\"submit_sing_in\") == \"exit\":\r\n        return redirect(url_for('index'))\r\n\r\n    username = request.form.get(\"username\")\r\n    password = request.form.get(\"password\")\r\n\r\n    db_sess = db_session.create_session()\r\n\r\n    user = db_sess.query(User).filter(User.name == username).first()\r\n    if not user:\r\n        return render_template('error.html', error='Такого пользователя не существует')\r\n\r\n    if user.password != password:\r\n        return render_template('error.html', error='Неправильный пароль')\r\n\r\n    db_sess.commit()\r\n    db_sess.close()\r\n\r\n    return redirect(url_for('profile', username=username))\r\n\r\n\r\n@app.route(\"/profile/<username>\")\r\ndef profile(username):\r\n    db_sess = db_session.create_session()\r\n    user = db_sess.query(User).filter(User.name == str(username)).first()\r\n    # print(user.name, user.image)\r\n    image = user.image\r\n    return render_template('profile.html', username=username, image=image)\r\n\r\n\r\n@app.route(\"/submit_menu_buttons\", methods=['POST', 'GET'])\r\ndef submit_menu_buttons():\r\n    username = request.form.get(\"username\")\r\n    # print(username)\r\n\r\n    if request.form.get(\"menu-buttons\") == \"profile\":\r\n        return redirect(url_for('my_profile', username=username))\r\n\r\n    if request.form.get(\"menu-buttons\") == \"all_recipes\":\r\n        return redirect(url_for('all_recipes', username=username))\r\n\r\n    if request.form.get(\"menu-buttons\") == \"possible_recipes\":\r\n        return redirect(url_for('index'))\r\n\r\n    if request.form.get(\"menu-buttons\") == \"make_recipe\":\r\n        return redirect(url_for('make_recipe', username=username))\r\n\r\n    if request.form.get(\"menu-buttons\") == \"my_recipes\":\r\n        return redirect(url_for('my_recipes', username=username))\r\n\r\n\r\n@app.route(\"/my_profile/<username>\")\r\ndef my_profile(username):\r\n    db_sess = db_session.create_session()\r\n    user = db_sess.query(User).filter(User.name == str(username)).first()\r\n    image = user.image\r\n    db_sess.close()\r\n    return render_template('my_profile.html', username=username, image=image)\r\n\r\n\r\n@app.route(\"/set_profile/<username>\", methods=['POST', 'GET'])\r\ndef set_image(username):\r\n    file = request.files['image']\r\n\r\n    if file.filename != '':\r\n\r\n        if not allowed_file(file.filename):\r\n            return render_template('error2.html', error='файл не соответствует формату(png, jpg, jpeg)')\r\n\r\n        db_sess = db_session.create_session()\r\n        user = db_sess.query(User).filter(User.name == str(username)).first()\r\n\r\n        filename = f'image_{user.id}.png'\r\n\r\n        user.image = f'/{IMAGE_FOLDER}/{filename}'\r\n        db_sess.commit()\r\n\r\n        file.save(os.path.join(IMAGE_FOLDER, filename))\r\n\r\n    new_name = request.form.get('username')\r\n\r\n    db_sess = db_session.create_session()\r\n\r\n    all_names = [i.name for i in db_sess.query(User).filter(User.name != str(username))]\r\n\r\n    if new_name not in all_names and new_name:\r\n        user = db_sess.query(User).filter(User.name == str(username)).first()\r\n        user.name = str(new_name)\r\n        db_sess.commit()\r\n    else:\r\n        return render_template('error2.html', error='Такое имя уже существует')\r\n\r\n    username = user.name\r\n\r\n    return redirect(url_for('profile', username=username))\r\n\r\n\r\n@app.route(\"/make_recipe/<username>\")\r\ndef make_recipe(username):\r\n    return render_template('make_recipe.html', username=username)\r\n\r\n\r\n@app.route(\"/submit_make_recipe/<username>\", methods=['POST', 'GET'])\r\ndef submit_make_recipe(username):\r\n    print(username)\r\n    if request.form.get('make_recipe') == 'make':\r\n        db_sess = db_session.create_session()\r\n        user = db_sess.query(User).filter(User.name == str(username)).first()\r\n        user_id = user.id\r\n\r\n        recipe = Recipe()\r\n\r\n        recipe.name = request.form.get('name')\r\n        recipe.description = request.form.get('description')\r\n        recipe.author = username\r\n        recipe.products = str(request.form.getlist('ingredients'))\r\n        recipe.difficult = request.form.get('recipe_dif')\r\n        recipe.type = str(request.form.getlist('recipe_types'))\r\n        recipe.likes = 0\r\n\r\n        file = request.files['image']\r\n\r\n        if file.filename != '':\r\n            if not allowed_file(file.filename):\r\n                return render_template('error2.html', error='файл не соответствует формату(png, jpg, jpeg)')\r\n            filename = f'image_{len(db_sess.query(Recipe).all()) + 1}.png'\r\n            recipe.image = f'/{IMAGE_RECIPE_FOLDER}/{filename}'\r\n            file.save(os.path.join(IMAGE_RECIPE_FOLDER, filename))\r\n        else:\r\n            recipe.image = f'/static/img/none_image.png'\r\n\r\n        db_sess.add(recipe)\r\n        db_sess.commit()\r\n\r\n    return redirect(url_for('profile', username=username))\r\n\r\n\r\n@app.route(\"/all_recipes/<username>\", methods=['POST', 'GET'])\r\ndef all_recipes(username):\r\n    db_sess = db_session.create_session()\r\n    recipes = db_sess.query(Recipe).all()\r\n    recipes = [[i.id, i.name, i.description, i.image, i.author, i.likes, i.difficult] for i in recipes]\r\n    # print(recipes)\r\n    return render_template('all_recipes.html', recipes=recipes, username=username)\r\n\r\n\r\n@app.route(\"/submit_all_recipes/<username>\", methods=['POST', 'GET'])\r\ndef submit_all_recipes(username):\r\n    db_sess = db_session.create_session()\r\n    recipes = db_sess.query(Recipe).all()\r\n    recipes1 = [str(i.id) for i in recipes]\r\n    recipes2 = [f\"like_{i.id}\" for i in recipes]\r\n    # print(request.form.get('action'))\r\n    # print(recipes)\r\n    if str(request.form.get('action')) in recipes1:\r\n        recipe = db_sess.query(Recipe).filter(Recipe.id == int(request.form.get('action'))).first()\r\n        return str(recipe.description)\r\n\r\n    if request.form.get('action') in recipes2:\r\n        with open('static/likes.json', encoding=\"utf-8\") as f:\r\n            res = json.load(f)\r\n\r\n        recipe = db_sess.query(Recipe).filter(Recipe.id == int(request.form.get('action').split('_')[1])).first()\r\n\r\n        if recipe.id not in res[username]:\r\n            res[username].append(recipe.id)\r\n            recipe.likes += 1\r\n            db_sess.commit()\r\n\r\n        with open('static/likes.json', 'w', encoding=\"utf-8\") as f:\r\n            res = json.dump(res, f)\r\n\r\n\r\n        return redirect(url_for('all_recipes', username=username))\r\n\r\n    return redirect(url_for('all_recipes', username=username))\r\n\r\n\r\n@app.route(\"/my_recipes/<username>\", methods=['POST', 'GET'])\r\ndef my_recipes(username: str):\r\n    db_sess = db_session.create_session()\r\n    recipes = db_sess.query(Recipe).filter(Recipe.author == username).all()\r\n    recipes = [[i.id, i.name, i.description, i.image, i.author] for i in recipes]\r\n    # print(recipes)\r\n    return render_template('all_recipes.html', recipes=recipes, username=username)\r\n\r\n\r\nif __name__ == '__main__':\r\n    db_session.global_init('db/db.db')\r\n    app.run(port=8080, host='127.0.0.1')\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/main.py b/main.py
+--- a/main.py	(revision afafa51317305bc42cd0604057a125efc261f1c3)
++++ b/main.py	(date 1746979469563)
+@@ -2,19 +2,112 @@
+ from data.users import User
+ from data.recipes import Recipe
+ from data import db_session
++import random
++import datetime
+ import os
+-import json
+ 
+ app = Flask(__name__)
+ 
+ IMAGE_FOLDER = 'static/img/images-of-users'
+ IMAGE_RECIPE_FOLDER = 'static/img/images-of-recipes'
++recipes = [{
++    "id": 12,
++    "name": 'wtf',
++    "description": None,
++    "image_url": f"/static/uploads/{None}"}]
+ 
+ 
+ def allowed_file(filename):
+     return filename.count('.') == 1 and filename.split('.')[1].lower() in ['png', 'jpg', 'jpeg']
+ 
+ 
++def log_move(name_move, user):
++    f = open("static/logs.txt", 'a')
++    print(f.write(f'User {user} {name_move} at {datetime.datetime.now()} \n'))
++    f.close()
++
++
++def transliteration(word):
++    slob = {
++        "А": "A",
++        "Б": "B",
++        "В": "V",
++        "Г": "G",
++        "Д": "D",
++        "Е": "E",
++        "Ё": "E",
++        "Ж": "Zh",
++        "З": "Z",
++        "И": "I",
++        "Й": "I",
++        "К": "K",
++        "Л": "L",
++        "М": "M",
++        "Н": "N",
++        "О": "O",
++        "П": "P",
++        "Р": "R",
++        "С": "S",
++        "Т": "T",
++        "У": "U",
++        "Ф": "F",
++        "Х": "Kh",
++        "Ц": "Tc",
++        "Ч": "Ch",
++        "Ш": "Sh",
++        "Щ": "Shch",
++        "Ы": "Y",
++        "Э": "E",
++        "Ю": "Iu",
++        "Я": "Ia",
++        "а": "a",
++        "б": "b",
++        "в": "v",
++        "г": "g",
++        "д": "d",
++        "е": "e",
++        "ё": "e",
++        "ж": "zh",
++        "з": "z",
++        "и": "i",
++        "й": "i",
++        "к": "k",
++        "л": "l",
++        "м": "m",
++        "н": "n",
++        "о": "o",
++        "п": "p",
++        "р": "r",
++        "с": "s",
++        "т": "t",
++        "у": "u",
++        "ф": "f",
++        "х": "kh",
++        "ц": "tc",
++        "ч": "ch",
++        "ш": "sh",
++        "щ": "shch",
++        "ы": "y",
++        "э": "e",
++        "ю": "iu",
++        "я": "ia",
++    }
++    fol = word.split()
++    gol = []
++    g = len(fol)
++    hkl = 0
++    for i in fol:
++        for j in i:
++            if j in slob:
++                gol.append(slob[j])
++            elif j != "ь" and j != "ъ" and j != 'Ь' and j != 'Ъ':
++                gol.append(j)
++        hkl += 1
++        if hkl != g:
++            gol.append(" ")
++    return "".join(gol)
++
++
+ @app.route('/', methods=['GET', 'POST'])
+ @app.route('/main', methods=['GET', 'POST'])
+ def index():
+@@ -25,11 +118,51 @@
+ def index_form():
+     action = request.form.get("singing")
+     if action == "sing_up":
++        log_move('is trying to sing_up', 'someone')
+         return redirect(url_for("sing_up"))
+     if action == "sing_in":
++        log_move('is trying to sing_in', 'someone')
+         return redirect(url_for("sing_in"))
+ 
+ 
++@app.route("/my_recipes/<username>", methods=['POST', 'GET'])
++def my_recipes(username):
++    db_sess = db_session.create_session()
++    recipes1 = db_sess.query(Recipe).all()
++    recipes1 = [[i.id, i.name, i.description, i.image, i.author] for i in recipes1]
++    recipes = []
++    for i in recipes1:
++        if username == i[4]:
++            recipes.append(i)
++    # print(recipes)
++    return render_template('all_recipes.html', recipes=recipes)
++
++
++@app.route("/my_recommendations/<username>", methods=['POST', 'GET'])
++def my_recommendations(username):
++    db_sess = db_session.create_session()
++    recipes = db_sess.query(Recipe).all()
++    recipes = [[i.id, i.name, i.description, i.image, i.author] for i in recipes]
++    # print(recipes)
++    random.shuffle(recipes)
++    recipes = recipes[:20]
++    return render_template('all_recipes.html', recipes=recipes)
++
++
++@app.route("/rating/<username>", methods=['POST', 'GET'])
++def rating(username):
++    db_sess = db_session.create_session()
++    recipes1 = db_sess.query(Recipe).all()
++    recipes1 = [[i.id, i.name, i.description, i.image, i.author] for i in recipes1]
++    recipes = []
++    for i in recipes1:
++        if username == i[4]:
++            recipes.append(i)
++    # print(recipes)
++    db_sess.close()
++    return render_template('all_recipes.html', recipes=recipes)
++
++
+ @app.route("/sing_up")
+ def sing_up():
+     return render_template('sing_up.html')
+@@ -53,19 +186,25 @@
+     password = request.form.get("password")
+     password2 = request.form.get("confirm_password")
+     if "@" not in email or len(email) < 5:
++        log_move('mistakes at email', username)
+         return render_template("error.html", error="Некорректный Email")
+     if len(username) < 3 or '/' in username:
++        log_move('mistakes at username', username)
+         return render_template("error.html", error="Короткий username")
+     if len(password) < 3:
++        log_move('mistakes at password(too short)', username)
+         return render_template("error.html", error="Короткий password")
+     if password != password2:
++        log_move('mistakes at password(they are different)', username)
+         return render_template("error.html", error="Пароли не совпадают")
+     db_sess = db_session.create_session()
+ 
+     if email in [i.email for i in db_sess.query(User).all()]:
++        log_move('mistakes at Email(already exist)', username)
+         return render_template("error.html", error="Такой Email уже зарегестрирован")
+ 
+     if username in [i.name for i in db_sess.query(User).all()]:
++        log_move('mistakes at Username(already exist)', username)
+         return render_template("error.html", error="Такой Username уже зарегестрирован")
+ 
+     user = User()
+@@ -75,15 +214,7 @@
+ 
+     db_sess.add(user)
+     db_sess.commit()
+-
+-    with open('static/likes.json', encoding="utf-8") as f:
+-        res = json.load(f)
+-
+-    res[username] = []
+-
+-    with open('static/likes.json', 'w', encoding="utf-8") as f:
+-        res = json.dump(res, f)
+-
++    log_move('is sing up', username)
+     return redirect(url_for('profile', username=username))
+ 
+ 
+@@ -102,14 +233,16 @@
+ 
+     user = db_sess.query(User).filter(User.name == username).first()
+     if not user:
++        log_move('mistakes at smthg(user is not founded)', username)
+         return render_template('error.html', error='Такого пользователя не существует')
+ 
+     if user.password != password:
++        log_move('mistakes at password(password is wrong)', username)
+         return render_template('error.html', error='Неправильный пароль')
+ 
+     db_sess.commit()
+     db_sess.close()
+-
++    log_move('is sing in', username)
+     return redirect(url_for('profile', username=username))
+ 
+ 
+@@ -119,28 +252,120 @@
+     user = db_sess.query(User).filter(User.name == str(username)).first()
+     # print(user.name, user.image)
+     image = user.image
++
+     return render_template('profile.html', username=username, image=image)
+ 
+ 
++@app.route("/recipe_filter/<username>", methods=['GET', 'POST'])
++def recipe_filter(username):
++    return render_template('recipe_filter.html', username=username)
++
++
++@app.route("/submit_recipe_filter/<username>", methods=['POST', 'GET'])
++def submit_recipe_filter(username):
++    if request.form.get('ifexit') == 'exit_':
++        log_move('is leaving submit_recipe_filter', 'someone')
++        return redirect(url_for('profile', username=username))
++    if request.form.get('search_recipe') == 'search':
++        print('dsfapk[jmdpas')
++        name = request.form.get('name')
++        name1 = transliteration(name)
++        description = request.form.get('description')
++        products = request.form.getlist('ingredients')
++        difficult = request.form.get('recipe_dif')
++        type = request.form.getlist('recipe_types')
++        needofall = request.form.get('needofall')
++        author = username
++        db_sess = db_session.create_session()
++        recipes1 = db_sess.query(Recipe).all()
++        recipes1 = [[i.id, i.name, i.description, i.image, i.author, i.products, i.difficult, i.type] for i in recipes1]
++        recipes = []
++        log_move(
++            f'is search with this objects - Name: {name}, Products: {products}, Difficult: {difficult}, Type: {type}',
++            username)
++
++        for i in recipes1:
++            g = [0, len(products), len(type)]
++            goggole = 0
++            print(name, i[1])
++            if (name.lower() in i[1].lower() or name1.lower() in i[1].lower()) and name:
++                goggole += 1
++            if difficult and i[6]:
++                print(difficult.lower(), i[6])
++                if difficult.lower() in i[6].lower():
++                    goggole += 1
++            if products and i[5]:
++                print(products, i[5])
++                for j in products:
++                    print(j, i[5])
++                    if j.lower() in i[5]:
++                        goggole += 1
++            if type and i[7]:
++                print(type, i[7])
++                for j in type:
++                    print(j, i[7])
++                    if j.lower() in i[7].lower():
++                        goggole += 1
++            print('-----------------------')
++            print(goggole)
++            if name:
++                g[0] += 1
++            if difficult:
++                g[0] += 1
++            print(sum(g))
++            print('-----------------------')
++            if needofall == 'Yes':
++                print('YES')
++                if goggole == sum(g):
++                    print(goggole)
++                    recipes.append(i)
++            else:
++                if goggole >= 1:
++                    recipes.append(i)
++        print(recipes)
++        log_move(f'is finding these recipes - {recipes}', 'someone')
++        return render_template('all_recipes.html', recipes=recipes)
++
++
++@app.route("/recipe_filter_search", methods=['POST', 'GET'])
++def recipe_filter_search():
++    db_sess = db_session.create_session()
++    recipes = db_sess.query(Recipe).all()
++    recipes = [[i.id, i.name, i.description, i.image, i.author] for i in recipes]
++    # print(recipes)
++    return render_template('all_recipes.html', recipes=recipes)
++
++
+ @app.route("/submit_menu_buttons", methods=['POST', 'GET'])
+ def submit_menu_buttons():
+     username = request.form.get("username")
+     # print(username)
+-
+     if request.form.get("menu-buttons") == "profile":
+-        return redirect(url_for('my_profile', username=username))
++        log_move('is tap button profile', username)
++        return redirect(url_for('my_profile', username
++        =username))
+ 
+     if request.form.get("menu-buttons") == "all_recipes":
++        log_move('is tap button all_recipes', username)
+         return redirect(url_for('all_recipes', username=username))
+ 
+     if request.form.get("menu-buttons") == "possible_recipes":
+-        return redirect(url_for('index'))
++        log_move('is tap button possible_recipes', username)
++        return redirect(url_for('recipe_filter', username=username))
+ 
+     if request.form.get("menu-buttons") == "make_recipe":
++        log_move('is tap button make_recipe', username)
+         return redirect(url_for('make_recipe', username=username))
+ 
+     if request.form.get("menu-buttons") == "my_recipes":
++        log_move('is tap button my_recipes', username)
+         return redirect(url_for('my_recipes', username=username))
++    if request.form.get("menu-buttons") == "my_recommendations":
++        log_move('is tap button my_recommendations', username)
++        return redirect(url_for('my_recommendations', username=username))
++    if request.form.get("menu-buttons") == "rating":
++        log_move('is tap button rating', username)
++        return redirect(url_for('rating', username=username))
+ 
+ 
+ @app.route("/my_profile/<username>")
+@@ -155,9 +380,9 @@
+ @app.route("/set_profile/<username>", methods=['POST', 'GET'])
+ def set_image(username):
+     file = request.files['image']
+-
++    if request.form.get("leave_in_acc") == "leave":
++        return redirect(url_for('index'))
+     if file.filename != '':
+-
+         if not allowed_file(file.filename):
+             return render_template('error2.html', error='файл не соответствует формату(png, jpg, jpeg)')
+ 
+@@ -167,6 +392,8 @@
+         filename = f'image_{user.id}.png'
+ 
+         user.image = f'/{IMAGE_FOLDER}/{filename}'
++        log_move(f'set new image at their profile - {filename}', username)
++
+         db_sess.commit()
+ 
+         file.save(os.path.join(IMAGE_FOLDER, filename))
+@@ -178,6 +405,7 @@
+     all_names = [i.name for i in db_sess.query(User).filter(User.name != str(username))]
+ 
+     if new_name not in all_names and new_name:
++        log_move(f'set new name at their profile - {new_name}', username)
+         user = db_sess.query(User).filter(User.name == str(username)).first()
+         user.name = str(new_name)
+         db_sess.commit()
+@@ -185,6 +413,7 @@
+         return render_template('error2.html', error='Такое имя уже существует')
+ 
+     username = user.name
++    log_move('set smthg new at their profile', username)
+ 
+     return redirect(url_for('profile', username=username))
+ 
+@@ -198,6 +427,7 @@
+ def submit_make_recipe(username):
+     print(username)
+     if request.form.get('make_recipe') == 'make':
++        log_move('is trying to make new recipe', username)
+         db_sess = db_session.create_session()
+         user = db_sess.query(User).filter(User.name == str(username)).first()
+         user_id = user.id
+@@ -206,11 +436,11 @@
+ 
+         recipe.name = request.form.get('name')
+         recipe.description = request.form.get('description')
+-        recipe.author = username
+         recipe.products = str(request.form.getlist('ingredients'))
++        print(request.form.get('ingredients'))
+         recipe.difficult = request.form.get('recipe_dif')
+         recipe.type = str(request.form.getlist('recipe_types'))
+-        recipe.likes = 0
++        recipe.author = username
+ 
+         file = request.files['image']
+ 
+@@ -222,63 +452,36 @@
+             file.save(os.path.join(IMAGE_RECIPE_FOLDER, filename))
+         else:
+             recipe.image = f'/static/img/none_image.png'
+-
++        log_move('add a new recipe', username)
+         db_sess.add(recipe)
+         db_sess.commit()
+ 
+     return redirect(url_for('profile', username=username))
+ 
+ 
+-@app.route("/all_recipes/<username>", methods=['POST', 'GET'])
+-def all_recipes(username):
++@app.route("/all_recipes", methods=['POST', 'GET'])
++def all_recipes():
+     db_sess = db_session.create_session()
+     recipes = db_sess.query(Recipe).all()
+-    recipes = [[i.id, i.name, i.description, i.image, i.author, i.likes, i.difficult] for i in recipes]
++    recipes = [[i.id, i.name, i.description, i.image, i.author] for i in recipes]
+     # print(recipes)
+-    return render_template('all_recipes.html', recipes=recipes, username=username)
++    return render_template('all_recipes.html', recipes=recipes)
+ 
+ 
+-@app.route("/submit_all_recipes/<username>", methods=['POST', 'GET'])
+-def submit_all_recipes(username):
++@app.route("/submit_all_recipes", methods=['POST', 'GET'])
++def submit_all_recipes():
+     db_sess = db_session.create_session()
+     recipes = db_sess.query(Recipe).all()
+-    recipes1 = [str(i.id) for i in recipes]
+-    recipes2 = [f"like_{i.id}" for i in recipes]
+-    # print(request.form.get('action'))
+-    # print(recipes)
+-    if str(request.form.get('action')) in recipes1:
++    recipes = [int(i.id) for i in recipes]
++    print(request.form.get('action'))
++    print(recipes)
++    if int(request.form.get('action')) in recipes:
+         recipe = db_sess.query(Recipe).filter(Recipe.id == int(request.form.get('action'))).first()
++        log_move(f'tap on recipe {Recipe.id}', 'someone')
+         return str(recipe.description)
+-
+-    if request.form.get('action') in recipes2:
+-        with open('static/likes.json', encoding="utf-8") as f:
+-            res = json.load(f)
+-
+-        recipe = db_sess.query(Recipe).filter(Recipe.id == int(request.form.get('action').split('_')[1])).first()
+-
+-        if recipe.id not in res[username]:
+-            res[username].append(recipe.id)
+-            recipe.likes += 1
+-            db_sess.commit()
+-
+-        with open('static/likes.json', 'w', encoding="utf-8") as f:
+-            res = json.dump(res, f)
+-
+-
+-        return redirect(url_for('all_recipes', username=username))
+-
+-    return redirect(url_for('all_recipes', username=username))
+-
+-
+-@app.route("/my_recipes/<username>", methods=['POST', 'GET'])
+-def my_recipes(username: str):
+-    db_sess = db_session.create_session()
+-    recipes = db_sess.query(Recipe).filter(Recipe.author == username).all()
+-    recipes = [[i.id, i.name, i.description, i.image, i.author] for i in recipes]
+-    # print(recipes)
+-    return render_template('all_recipes.html', recipes=recipes, username=username)
++    return redirect(url_for('all_recipes'))
+ 
+ 
+ if __name__ == '__main__':
+     db_session.global_init('db/db.db')
+-    app.run(port=8080, host='127.0.0.1')
++    app.run(port=8080, host='127.0.0.1')
+\ No newline at end of file
+Index: static/logs.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>User Malef1cus is tap button all_recipes at 2025-05-11 11:02:10.585122 \r\nUser someone tap on recipe <data.recipes.Recipe object at 0x000002D4989CE060> at 2025-05-11 11:02:31.851370 \r\nUser someone tap on recipe <data.recipes.Recipe object at 0x000002D4989CE720> at 2025-05-11 11:02:50.600056 \r\nUser someone tap on recipe <data.recipes.Recipe object at 0x000002D4989CEC60> at 2025-05-11 11:02:52.937314 \r\nUser Malef1cus is tap button make_recipe at 2025-05-11 11:02:55.664046 \r\nUser Malef1cus is trying to make new recipe at 2025-05-11 11:03:02.704516 \r\nUser Malef1cus set add a new recipe at 2025-05-11 11:03:02.707526 \r\nUser someone is trying to sing_in at 2025-05-11 11:07:03.272098 \r\nUser Malef1cus is sing in at 2025-05-11 11:07:04.400726 \r\nUser Malef1cus is tap button my_recipes at 2025-05-11 11:07:04.957777 \r\nUser Malef1cus is tap button my_recipes at 2025-05-11 11:07:21.853068 \r\nUser SOAD is sing up at 2025-05-11 11:07:50.376963 \r\nUser SOAD is tap button profile at 2025-05-11 11:07:55.151985 \r\nUser SOAD is tap button make_recipe at 2025-05-11 11:07:58.591954 \r\nUser SOAD is tap button my_recipes at 2025-05-11 11:07:59.733180 \r\nUser SOAD is tap button all_recipes at 2025-05-11 11:08:01.977489 \r\nUser SOAD is tap button possible_recipes at 2025-05-11 11:08:05.900030 \r\nUser SOAD is search with this objects - Name: QWERTY, Products: [], Difficult: None, Type: [] at 2025-05-11 11:08:07.464759 \r\nUser someone is finding these recipes - [[4, 'QWERTY', 'dsadsadasdasadsadsads', '/static/img/none_image.png', 'Malef1cus', '[]', None, '[]']] at 2025-05-11 11:08:07.464759 \r\nUser SOAD is tap button all_recipes at 2025-05-11 11:08:09.605000 \r\nUser someone is trying to sing_in at 2025-05-11 17:17:31.876413 \r\nUser Malef1cus is sing in at 2025-05-11 17:17:33.438442 \r\nUser Malef1cus is tap button my_recommendations at 2025-05-11 17:20:30.427167 \r\nUser Malef1cus is tap button rating at 2025-05-11 17:20:32.111561 \r\nUser someone is trying to sing_in at 2025-05-11 18:28:29.263058 \r\nUser Malef1cus is sing in at 2025-05-11 18:28:29.922755 \r\nUser Malef1cus is tap button all_recipes at 2025-05-11 18:28:30.889349 \r\nUser someone is trying to sing_in at 2025-05-11 18:41:17.305574 \r\nUser Malef1cus is sing in at 2025-05-11 18:41:17.977292 \r\nUser Malef1cus is tap button all_recipes at 2025-05-11 18:41:18.637441 \r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/static/logs.txt b/static/logs.txt
+--- a/static/logs.txt	(revision afafa51317305bc42cd0604057a125efc261f1c3)
++++ b/static/logs.txt	(date 1746979489600)
+@@ -28,3 +28,9 @@
+ User someone is trying to sing_in at 2025-05-11 18:41:17.305574 
+ User Malef1cus is sing in at 2025-05-11 18:41:17.977292 
+ User Malef1cus is tap button all_recipes at 2025-05-11 18:41:18.637441 
++User someone is trying to sing_in at 2025-05-11 19:04:34.914606 
++User Malef1cus mistakes at smthg(user is not founded) at 2025-05-11 19:04:36.393885 
++User Malef1cus is sing up at 2025-05-11 19:04:42.997253 
++User Malef1cus is tap button all_recipes at 2025-05-11 19:04:45.503781 
++User Malef1cus is tap button my_recommendations at 2025-05-11 19:04:47.809783 
++User Malef1cus is tap button rating at 2025-05-11 19:04:49.600297 
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"8a7ce2f3-a4d3-4faf-8f68-5110ad0828f2\" name=\"Changes\" comment=\"Пояснительная записка\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Python Script\" />\r\n        <option value=\"HTML File\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"PUSH_AUTO_UPDATE\" value=\"true\" />\r\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\r\n      <map>\r\n        <entry key=\"$PROJECT_DIR$\" value=\"Vlad\" />\r\n      </map>\r\n    </option>\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 4\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"2vuel4aNp1yul5qGaaoBUXHonKs\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">{\r\n  &quot;keyToString&quot;: {\r\n    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,\r\n    &quot;Python.main.executor&quot;: &quot;Run&quot;,\r\n    &quot;Python.test_db.executor&quot;: &quot;Run&quot;,\r\n    &quot;Python.users.executor&quot;: &quot;Run&quot;,\r\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\r\n    &quot;git-widget-placeholder&quot;: &quot;testing&quot;,\r\n    &quot;last_opened_file_path&quot;: &quot;C:/Users/vladv/PycharmProjects/EasyCooking/static&quot;,\r\n    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;\r\n  }\r\n}</component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"CopyFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Users\\vladv\\PycharmProjects\\EasyCooking\\static\" />\r\n      <recent name=\"C:\\Users\\vladv\\PycharmProjects\\EasyCooking\" />\r\n    </key>\r\n    <key name=\"MoveFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Users\\vladv\\PycharmProjects\\EasyCooking\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunManager\">\r\n    <configuration name=\"main\" type=\"PythonConfigurationType\" factoryName=\"Python\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"EasyCooking\" />\r\n      <option name=\"ENV_FILES\" value=\"\" />\r\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\r\n      <option name=\"PARENT_ENVS\" value=\"true\" />\r\n      <envs>\r\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\r\n      </envs>\r\n      <option name=\"SDK_HOME\" value=\"\" />\r\n      <option name=\"WORKING_DIRECTORY\" value=\"$PROJECT_DIR$\" />\r\n      <option name=\"IS_MODULE_SDK\" value=\"true\" />\r\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\r\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\r\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/main.py\" />\r\n      <option name=\"PARAMETERS\" value=\"\" />\r\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\r\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\r\n      <option name=\"MODULE_MODE\" value=\"false\" />\r\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\r\n      <option name=\"INPUT_FILE\" value=\"\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"Python.main\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SharedIndexes\">\r\n    <attachedChunks>\r\n      <set>\r\n        <option value=\"bundled-python-sdk-babbdf50b680-746f403e7f0c-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-241.15989.155\" />\r\n      </set>\r\n    </attachedChunks>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"8a7ce2f3-a4d3-4faf-8f68-5110ad0828f2\" name=\"Changes\" comment=\"\" />\r\n      <created>1744999533493</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1744999533493</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"first commit\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1745000536343</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1745000536343</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"Добавил возможность уйти назад, начал работу с выбором продуктов для создания рецептов\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1746476144429</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1746476144429</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"Работа с make recipes\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1746799099474</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1746799099474</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00004\" summary=\"Фильтры + мелочь\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1746920978596</created>\r\n      <option name=\"number\" value=\"00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1746920978596</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00005\" summary=\"Фильтры теперь полностью работают\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1746949652566</created>\r\n      <option name=\"number\" value=\"00005\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1746949652566</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00006\" summary=\"Новые логи\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1746950622531</created>\r\n      <option name=\"number\" value=\"00006\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1746950622531</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00007\" summary=\"Исправление багов+проблемы с пайчармом\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1746972300575</created>\r\n      <option name=\"number\" value=\"00007\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1746972300575</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00008\" summary=\"Исправление багов+проблемы с пайчармом\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1746972338521</created>\r\n      <option name=\"number\" value=\"00008\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00008\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1746972338521</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00009\" summary=\"Исправление багов+проблемы с пайчармом\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1746972371330</created>\r\n      <option name=\"number\" value=\"00009\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00009\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1746972371330</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00010\" summary=\"Исправление багов+проблемы с пайчармом\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1746972412091</created>\r\n      <option name=\"number\" value=\"00010\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00010\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1746972412091</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00011\" summary=\"Исправление багов+проблемы с пайчармом\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1746973258234</created>\r\n      <option name=\"number\" value=\"00011\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00011\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1746973258234</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00012\" summary=\"Пояснительная записка\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1746973710110</created>\r\n      <option name=\"number\" value=\"00012\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00012\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1746973710110</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00013\" summary=\"Пояснительная записка\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1746978539886</created>\r\n      <option name=\"number\" value=\"00013\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00013\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1746978539886</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00014\" summary=\"Пояснительная записка\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1746978830063</created>\r\n      <option name=\"number\" value=\"00014\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00014\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1746978830063</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"15\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"RECENT_FILTERS\">\r\n      <map>\r\n        <entry key=\"Branch\">\r\n          <value>\r\n            <list>\r\n              <RecentGroup>\r\n                <option name=\"FILTER_VALUES\">\r\n                  <option value=\"master\" />\r\n                </option>\r\n              </RecentGroup>\r\n              <RecentGroup>\r\n                <option name=\"FILTER_VALUES\">\r\n                  <option value=\"origin/Vlad\" />\r\n                </option>\r\n              </RecentGroup>\r\n              <RecentGroup>\r\n                <option name=\"FILTER_VALUES\">\r\n                  <option value=\"origin/main\" />\r\n                </option>\r\n              </RecentGroup>\r\n            </list>\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"first commit\" />\r\n    <MESSAGE value=\"Добавил возможность уйти назад, начал работу с выбором продуктов для создания рецептов\" />\r\n    <MESSAGE value=\"Работа с make recipes\" />\r\n    <MESSAGE value=\"Фильтры + мелочь\" />\r\n    <MESSAGE value=\"Фильтры теперь полностью работают\" />\r\n    <MESSAGE value=\"Новые логи\" />\r\n    <MESSAGE value=\"Исправление багов+проблемы с пайчармом\" />\r\n    <MESSAGE value=\"Пояснительная записка\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Пояснительная записка\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision afafa51317305bc42cd0604057a125efc261f1c3)
++++ b/.idea/workspace.xml	(date 1746979596738)
+@@ -6,6 +6,8 @@
+   <component name="ChangeListManager">
+     <list default="true" id="8a7ce2f3-a4d3-4faf-8f68-5110ad0828f2" name="Changes" comment="Пояснительная записка">
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/static/logs.txt" beforeDir="false" afterPath="$PROJECT_DIR$/static/logs.txt" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -216,7 +218,15 @@
+       <option name="project" value="LOCAL" />
+       <updated>1746978830063</updated>
+     </task>
+-    <option name="localTasksCounter" value="15" />
++    <task id="LOCAL-00015" summary="Пояснительная записка">
++      <option name="closed" value="true" />
++      <created>1746979090474</created>
++      <option name="number" value="00015" />
++      <option name="presentableId" value="LOCAL-00015" />
++      <option name="project" value="LOCAL" />
++      <updated>1746979090474</updated>
++    </task>
++    <option name="localTasksCounter" value="16" />
+     <servers />
+   </component>
+   <component name="Vcs.Log.Tabs.Properties">
