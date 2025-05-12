@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, make_response, redirect, url_for
+from flask import Flask, render_template, request, make_response, redirect, url_for, jsonify
 from data.users import User
 from data.recipes import Recipe
 from data import db_session
@@ -290,6 +290,22 @@ def recipe(username, id):
            "difficult": recipe.difficult, "products": recipe.products, "type": recipe.type}
 
     return render_template('recipe.html', username=username, recipe=recipe)
+
+
+@app.route("/api/recipes", methods=["GET"])
+def api_get_recipes():
+    db_sess = db_session.create_session()
+    recipes = db_sess.query(Recipe).all()
+    return jsonify([{
+        "id": r.id,
+        "name": r.name,
+        "description": r.description,
+        "author": r.author,
+        "ingredients": r.products.split(','),
+        "type": r.type.split(','),
+        "difficult": r.difficult,
+        "likes": r.likes,
+    } for r in recipes])
 
 
 if __name__ == '__main__':
