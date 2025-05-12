@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, make_response, redirect, url_for
+from flask import Flask, render_template, request, make_response, redirect, url_for, jsonify
+
 from data.users import User
 from data.recipes import Recipe
 from data import db_session
@@ -19,8 +20,7 @@ recipes = [{
 
 
 def allowed_file(filename):
-    return filename.count('.') == 1 and filename.split('.')[1].lower() in ['png', 'jpg', 'jpeg']
-
+    return filename.split('.')[-1].lower() in ['png', 'jpg', 'jpeg']
 
 def log_move(name_move, user):
     f = open("static/logs.txt", 'a')
@@ -130,8 +130,7 @@ def index_form():
 def my_recipes(username: str):
     db_sess = db_session.create_session()
     recipes = db_sess.query(Recipe).filter(Recipe.author == username).all()
-    recipes = [[i.id, i.name, i.description, i.image, i.author] for i in recipes]
-    # print(recipes)
+    recipes = [[i.id, i.name, i.description, i.image, i.author, i.likes, i.difficult] for i in recipes]    # print(recipes)
     return render_template('all_recipes.html', recipes=recipes, username=username)
 
 
@@ -145,11 +144,26 @@ def my_recommendations(username):
     recipes = recipes[:20]
     return render_template('all_recipes.html', recipes=recipes)
 
+@app.route("/make_recipe/<username>/<id>")
+def recipe(username, id):
+    db_sess = db_session.create_session()
+    recipe = db_sess.query(Recipe).filter(Recipe.id == int(id)).first()
+    print(recipe.products[0])
+
+    products = recipe.products[1:-1].split(', ')
+    products = [i[1:-1] for i in products]
+
+    recipe = {"id": recipe.id, "name": recipe.name, "description": recipe.description, "author": recipe.author,
+           "difficult": recipe.difficult, "products": ','.join([i for i in ''.join(str(recipe.products)[1:-1].split(',')).split("'") if i != '' and i != ' ']), "type": recipe.type}
+
+    return render_template('recipe.html', username=username, recipe=recipe)
+
+
 
 @app.route("/rating/<username>", methods=['POST', 'GET'])
 def rating(username):
     db_sess = db_session.create_session()
-    recipes1 = db_sess.query(Recipe).all()
+    recipes1 = db_sess.query(Recipe).all() 
     recipes1 = [[i.id, i.name, i.description, i.image, i.author] for i in recipes1]
     recipes = []
     for i in recipes1:
@@ -427,6 +441,9 @@ def submit_make_recipe(username):
         user = db_sess.query(User).filter(User.name == str(username)).first()
         user_id = user.id
 
+        if request.form.get('name') in [i.name for i in db_sess.query(Recipe).all()]:
+            return render_template('error2.html', error='Такой рецепт уже существует')
+
         recipe = Recipe()
 
         recipe.name = request.form.get('name')
@@ -471,9 +488,13 @@ def submit_all_recipes(username):
     recipes2 = [f"like_{i.id}" for i in recipes]
     # print(request.form.get('action'))
     # print(recipes)
+    if request.form.get('action') == "quit":
+        return redirect(url_for('profile', username=username))
+
     if str(request.form.get('action')) in recipes1:
         recipe = db_sess.query(Recipe).filter(Recipe.id == int(request.form.get('action'))).first()
-        return str(recipe.description)
+        return redirect(url_for('recipe', username=username, id=recipe.id))
+
 
     if request.form.get('action') in recipes2:
         with open('static/likes.json', encoding="utf-8") as f:
@@ -493,6 +514,22 @@ def submit_all_recipes(username):
         return redirect(url_for('all_recipes', username=username))
 
     return redirect(url_for('all_recipes', username=username))
+
+@app.route("/api/recipes", methods=["GET"])
+def api_get_recipes():
+    db_sess = db_session.create_session()
+    recipes = db_sess.query(Recipe).all()
+    return jsonify([{
+        "id": r.id,
+        "name": r.name,
+        "description": r.description,
+        "author": r.author,
+        "ingredients": r.products.split(','),
+        "type": r.type.split(','),
+        "difficult": r.difficult,
+        "likes": r.likes,
+    } for r in recipes])
+
 
 
 if __name__ == '__main__':
