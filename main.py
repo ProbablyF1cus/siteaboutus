@@ -12,7 +12,7 @@ IMAGE_RECIPE_FOLDER = 'static/img/images-of-recipes'
 
 
 def allowed_file(filename):
-    return filename.count('.') == 1 and filename.split('.')[1].lower() in ['png', 'jpg', 'jpeg']
+    return filename.split('.')[-1].lower() in ['png', 'jpg', 'jpeg']
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -198,9 +198,13 @@ def make_recipe(username):
 def submit_make_recipe(username):
     print(username)
     if request.form.get('make_recipe') == 'make':
+
         db_sess = db_session.create_session()
         user = db_sess.query(User).filter(User.name == str(username)).first()
         user_id = user.id
+
+        if request.form.get('name') in [i.name for i in db_sess.query(Recipe).all()]:
+            return render_template('error2.html', error='Такой рецепт уже существует')
 
         recipe = Recipe()
 
@@ -286,8 +290,14 @@ def my_recipes(username: str):
 def recipe(username, id):
     db_sess = db_session.create_session()
     recipe = db_sess.query(Recipe).filter(Recipe.id == int(id)).first()
+
+    print(recipe.products[0])
+
+    products = recipe.products[1:-1].split(', ')
+    products = [i[1:-1] for i in products]
+
     recipe = {"id": recipe.id, "name": recipe.name, "description": recipe.description, "author": recipe.author,
-           "difficult": recipe.difficult, "products": recipe.products, "type": recipe.type}
+           "difficult": recipe.difficult, "products": products, "type": recipe.type}
 
     return render_template('recipe.html', username=username, recipe=recipe)
 

@@ -12,13 +12,26 @@
     <form method="POST" action="/submit_all_recipes/{{username}}">
         <header>
           <div class="cont3">
-            <button type="submit" name="action" value="quit" class="btn btn-outline-danger">Quit</button>
+            <button style="margin: 20px;" type="submit" name="action" value="quit" class="btn btn-outline-danger">Quit</button>
           </div>
         </header>
         <div class="cont">
-            <h1>{{recipe.name}}</h1>
-            <p>{{recipe.description}}</p>
-            <p>{{recipe.difficult}}</p>
+            <h1 style="margin: 20px;">{{recipe.name}}</h1>
+            <hr>
+            <p style="margin: 20px;">Рецепт: {{recipe.description}}</p>
+            <hr>
+            <p style="margin: 20px;">Сложность: {{recipe.difficult}}</p>
+            <hr>
+            <p style="margin: 20px;">Необходимый продукты</p>
+            <div>
+              {% for i in recipe.products %}
+              <div>
+                <p style="margin-bottom: 5px; margin-left: 20px;">- {{ i }}</p>
+              </div>
+              {% endfor %}
+            </div>
+            <hr>
+            <p style="margin: 20px;">Автор: {{recipe.author}}</p>
         </div>
     </form>
 </body>
