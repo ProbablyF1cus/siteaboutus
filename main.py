@@ -8,6 +8,8 @@ import datetime
 import os
 import json
 
+db_session.global_init('db/db.db')
+
 app = Flask(__name__)
 
 IMAGE_FOLDER = 'static/img/images-of-users'
@@ -142,19 +144,57 @@ def my_recommendations(username):
     # print(recipes)
     random.shuffle(recipes)
     recipes = recipes[:20]
-    return render_template('all_recipes.html', recipes=recipes)
+    return render_template('my_recommendations.html', username=username, recipes=recipes)
+
+
+@app.route("/submit_my_recommendations/<username>", methods=['POST', 'GET'])
+def submit_my_recommendations(username):
+    db_sess = db_session.create_session()
+    recipes = db_sess.query(Recipe).all()
+    random.shuffle(recipes)
+    recipes = recipes[:20]
+    recipes1 = [str(i.id) for i in recipes]
+    recipes2 = [f"like_{i.id}" for i in recipes]
+    # print(request.form.get('action'))
+    # print(recipes)
+    if request.form.get('action') == "quit":
+        return redirect(url_for('profile', username=username))
+
+    if str(request.form.get('action')) in recipes1:
+        recipe = db_sess.query(Recipe).filter(Recipe.id == int(request.form.get('action'))).first()
+        return redirect(url_for('recipe', username=username, id=recipe.id))
+
+
+    if request.form.get('action') in recipes2:
+        with open('static/likes.json', encoding="utf-8") as f:
+            res = json.load(f)
+
+        recipe = db_sess.query(Recipe).filter(Recipe.id == int(request.form.get('action').split('_')[1])).first()
+
+        if recipe.id not in res[username]:
+            res[username].append(recipe.id)
+            recipe.likes += 1
+            db_sess.commit()
+
+        with open('static/likes.json', 'w', encoding="utf-8") as f:
+            res = json.dump(res, f)
+
+
+        return redirect(url_for('all_recipes', username=username))
+
+    return redirect(url_for('all_recipes', username=username))
+
 
 @app.route("/make_recipe/<username>/<id>")
 def recipe(username, id):
     db_sess = db_session.create_session()
     recipe = db_sess.query(Recipe).filter(Recipe.id == int(id)).first()
-    print(recipe.products[0])
 
     products = recipe.products[1:-1].split(', ')
     products = [i[1:-1] for i in products]
 
     recipe = {"id": recipe.id, "name": recipe.name, "description": recipe.description, "author": recipe.author,
-           "difficult": recipe.difficult, "products": ','.join([i for i in ''.join(str(recipe.products)[1:-1].split(',')).split("'") if i != '' and i != ' ']), "type": recipe.type}
+           "difficult": recipe.difficult, "products": products, "type": recipe.type}
 
     return render_template('recipe.html', username=username, recipe=recipe)
 
@@ -163,7 +203,7 @@ def recipe(username, id):
 @app.route("/rating/<username>", methods=['POST', 'GET'])
 def rating(username):
     db_sess = db_session.create_session()
-    recipes1 = db_sess.query(Recipe).all() 
+    recipes1 = db_sess.query(Recipe).all()
     recipes1 = [[i.id, i.name, i.description, i.image, i.author] for i in recipes1]
     recipes = []
     for i in recipes1:
@@ -269,7 +309,6 @@ def profile(username):
 def recipe_filter(username):
     return render_template('recipe_filter.html', username=username)
 
-
 @app.route("/submit_recipe_filter/<username>", methods=['POST', 'GET'])
 def submit_recipe_filter(username):
     if request.form.get('ifexit') == 'exit_':
@@ -294,26 +333,28 @@ def submit_recipe_filter(username):
             username)
 
         for i in recipes1:
-            g = [0, len(products), len(type)]
+            print(str(products).split(','))
+            print(products)
+            g = [0, len(str(products).split(',')), len(str(type).split(','))]
             goggole = 0
             print(name, i[1])
             if (name.lower() in i[1].lower() or name1.lower() in i[1].lower()) and name:
                 goggole += 1
             if difficult and i[6]:
-                print(difficult.lower(), i[6])
-                if difficult.lower() in i[6].lower():
+                print(difficult, i[6])
+                if difficult in i[6]:
                     goggole += 1
             if products and i[5]:
                 print(products, i[5])
                 for j in products:
                     print(j, i[5])
-                    if j.lower() in i[5]:
+                    if j in i[5]:
                         goggole += 1
             if type and i[7]:
                 print(type, i[7])
                 for j in type:
                     print(j, i[7])
-                    if j.lower() in i[7].lower():
+                    if j in i[7]:
                         goggole += 1
             print('-----------------------')
             print(goggole)
@@ -334,7 +375,6 @@ def submit_recipe_filter(username):
         print(recipes)
         log_move(f'is finding these recipes - {recipes}', 'someone')
         return render_template('all_recipes.html', recipes=recipes)
-
 
 @app.route("/recipe_filter_search", methods=['POST', 'GET'])
 def recipe_filter_search():
@@ -473,9 +513,7 @@ def submit_make_recipe(username):
 
 
 @app.route("/all_recipes/<username>", methods=['POST', 'GET'])
-def all_recipes(username):
-    db_sess = db_session.create_session()
-    recipes = db_sess.query(Recipe).all()
+def all_recipes(username, recipes=db_session.create_session().query(Recipe).all()):
     recipes = [[i.id, i.name, i.description, i.image, i.author, i.likes, i.difficult] for i in recipes]
     # print(recipes)
     return render_template('all_recipes.html', recipes=recipes, username=username)
@@ -533,5 +571,4 @@ def api_get_recipes():
 
 
 if __name__ == '__main__':
-    db_session.global_init('db/db.db')
     app.run(port=8080, host='127.0.0.1')

@@ -1,0 +1,75 @@
+User Malef1cus is tap button all_recipes at 2025-05-12 21:30:44.879731 
+User Malef1cus is tap button all_recipes at 2025-05-12 21:30:51.551052 
+User someone is trying to sing_in at 2025-05-12 23:52:35.274116 
+User Malef1cus is tap button all_recipes at 2025-05-12 23:52:37.863112 
+User Malef1cus is tap button my_recommendations at 2025-05-12 23:52:41.171913 
+User Malef1cus is tap button make_recipe at 2025-05-12 23:52:42.441917 
+User Malef1cus is tap button possible_recipes at 2025-05-12 23:52:46.171938 
+User Malef1cus is search with this objects - Name: , Products: ['Молоко'], Difficult: None, Type: [] at 2025-05-12 23:52:52.525628 
+User someone is finding these recipes - [] at 2025-05-12 23:52:52.525628 
+User Malef1cus is tap button possible_recipes at 2025-05-12 23:58:50.766012 
+User Malef1cus is search with this objects - Name: , Products: ['Молоко'], Difficult: None, Type: [] at 2025-05-12 23:58:55.563871 
+User someone is finding these recipes - [] at 2025-05-12 23:58:55.563871 
+User someone is trying to sing_in at 2025-05-13 00:00:42.040091 
+User Malef1cus is tap button possible_recipes at 2025-05-13 00:00:45.015273 
+User Malef1cus is tap button possible_recipes at 2025-05-13 00:00:57.759031 
+User Malef1cus is tap button possible_recipes at 2025-05-13 00:06:16.947424 
+User Malef1cus is tap button possible_recipes at 2025-05-13 00:06:38.752572 
+User someone is trying to sing_in at 2025-05-13 00:24:45.221602 
+User Malef1cus is tap button make_recipe at 2025-05-13 00:25:03.585239 
+User Malef1cus is tap button possible_recipes at 2025-05-13 00:25:05.551467 
+User someone is leaving submit_recipe_filter at 2025-05-13 00:25:06.306390 
+User Malef1cus is tap button all_recipes at 2025-05-13 00:25:06.867519 
+User Malef1cus is tap button possible_recipes at 2025-05-13 00:25:09.307984 
+User Malef1cus is search with this objects - Name: , Products: ['Молоко'], Difficult: [], Type: None at 2025-05-13 00:25:13.473112 
+User someone is finding these recipes - [] at 2025-05-13 00:25:13.474112 
+User someone is trying to sing_in at 2025-05-13 00:33:35.882359 
+User Malef1cus is tap button possible_recipes at 2025-05-13 00:33:38.401076 
+User Malef1cus is search with this objects - Name: , Products: ['Молоко'], Difficult: [], Type: None at 2025-05-13 00:33:44.132753 
+User someone is finding these recipes - [] at 2025-05-13 00:33:44.133753 
+User someone is trying to sing_in at 2025-05-13 00:39:39.240855 
+User Malef1cus is tap button my_recommendations at 2025-05-13 00:39:43.117856 
+User Malef1cus is tap button all_recipes at 2025-05-13 00:39:44.546721 
+User Malef1cus is tap button my_recipes at 2025-05-13 00:39:51.194830 
+User Malef1cus is tap button possible_recipes at 2025-05-13 00:39:53.334475 
+User Malef1cus is search with this objects - Name: , Products: ['Молоко'], Difficult: [], Type: [] at 2025-05-13 00:39:56.848008 
+User someone is finding these recipes - [[1, 'Блинчики', '1. взбить яйца молоко муку и сахар.\r\n2. пожарить на большом огне с каждой стороны 2 минуты.', '/static/img/images-of-recipes/image_1.png', 'Tima', "['Молоко', 'Мука', 'Куриное', 'Сахар']", 'Простой', "['Завтрак', 'Десерт', 'Закуска', 'Выпечка']"], [2, 'Печенье', 'приготовь печенье', '/static/img/images-of-recipes/image_2.png', 'Tima', "['Молоко', 'Творог', 'Кефир', 'Масло', 'Мука', 'Грецкий', 'Миндаль', 'Сахар', 'Разрыхлитель', 'Какао', 'Дрожжи']", 'Средний', "['Завтрак', 'Десерт', 'Закуска', 'Выпечка']"], [4, 'Омлет', 'Разбить 3 яйца, перемешать в одной посуде, залить молоком залить это в сквородку. Посолить и жарить до готовности. Готово', '/static/img/images-of-recipes/image_4.png', 'Malef1cus', "['Молоко', 'Куриное']", 'Простой', "['Завтрак', 'Ужин']"]] at 2025-05-13 00:39:56.849008 
+User Malef1cus is search with this objects - Name: , Products: ['Молоко'], Difficult: [], Type: [] at 2025-05-13 00:40:33.719091 
+User someone is finding these recipes - [[1, 'Блинчики', '1. взбить яйца молоко муку и сахар.\r\n2. пожарить на большом огне с каждой стороны 2 минуты.', '/static/img/images-of-recipes/image_1.png', 'Tima', "['Молоко', 'Мука', 'Куриное', 'Сахар']", 'Простой', "['Завтрак', 'Десерт', 'Закуска', 'Выпечка']"], [2, 'Печенье', 'приготовь печенье', '/static/img/images-of-recipes/image_2.png', 'Tima', "['Молоко', 'Творог', 'Кефир', 'Масло', 'Мука', 'Грецкий', 'Миндаль', 'Сахар', 'Разрыхлитель', 'Какао', 'Дрожжи']", 'Средний', "['Завтрак', 'Десерт', 'Закуска', 'Выпечка']"], [4, 'Омлет', 'Разбить 3 яйца, перемешать в одной посуде, залить молоком залить это в сквородку. Посолить и жарить до готовности. Готово', '/static/img/images-of-recipes/image_4.png', 'Malef1cus', "['Молоко', 'Куриное']", 'Простой', "['Завтрак', 'Ужин']"]] at 2025-05-13 00:40:33.720647 
+User someone is leaving submit_recipe_filter at 2025-05-13 00:46:59.277926 
+User Malef1cus is tap button my_recommendations at 2025-05-13 00:47:05.813144 
+User Malef1cus is tap button my_recommendations at 2025-05-13 00:47:08.428735 
+User Malef1cus is tap button possible_recipes at 2025-05-13 00:47:12.610833 
+User someone is trying to sing_in at 2025-05-13 01:00:21.285947 
+User someone is trying to sing_in at 2025-05-13 01:01:12.938535 
+User someone is trying to sing_in at 2025-05-13 01:47:19.641969 
+User Malef1cus is tap button my_recommendations at 2025-05-13 01:47:23.502411 
+User Malef1cus is tap button my_recommendations at 2025-05-13 01:47:27.488312 
+User Malef1cus is tap button my_recommendations at 2025-05-13 01:47:31.832966 
+User Malef1cus is tap button my_recommendations at 2025-05-13 01:47:48.233413 
+User Malef1cus is tap button all_recipes at 2025-05-13 01:47:50.543340 
+User Malef1cus is tap button my_recommendations at 2025-05-13 01:47:52.251741 
+User someone is trying to sing_in at 2025-05-13 01:51:59.130488 
+User Malef1cus is tap button my_recommendations at 2025-05-13 01:52:01.173333 
+User Malef1cus is tap button my_recommendations at 2025-05-13 01:52:04.678139 
+User Malef1cus is tap button my_recommendations at 2025-05-13 01:52:55.320037 
+User Malef1cus is tap button all_recipes at 2025-05-13 01:53:00.227922 
+User Malef1cus is tap button all_recipes at 2025-05-13 01:53:22.417448 
+User someone is trying to sing_in at 2025-05-13 01:56:52.644872 
+User Malef1cus is tap button my_recommendations at 2025-05-13 01:56:54.729900 
+User someone is trying to sing_in at 2025-05-13 02:05:25.524009 
+User Malef1cus is tap button my_recommendations at 2025-05-13 02:05:30.743928 
+User Malef1cus is tap button my_recommendations at 2025-05-13 02:05:52.979275 
+User someone is trying to sing_in at 2025-05-13 09:29:21.207660 
+User Malef1cus is tap button my_recommendations at 2025-05-13 09:29:24.741518 
+User someone is trying to sing_in at 2025-05-13 09:30:36.938846 
+User Malef1cus is tap button my_recommendations at 2025-05-13 09:30:39.926571 
+User Malef1cus is tap button my_recommendations at 2025-05-13 09:31:33.561604 
+User Malef1cus is tap button my_recommendations at 2025-05-13 09:31:36.220654 
+User Malef1cus is tap button all_recipes at 2025-05-13 09:31:51.426496 
+User someone is trying to sing_in at 2025-05-13 09:32:40.222957 
+User Malef1cus is tap button my_recommendations at 2025-05-13 09:32:41.617115 
+User Malef1cus is tap button my_recommendations at 2025-05-13 09:32:44.686687 
+User someone is trying to sing_in at 2025-05-13 09:32:55.209670 
+User Malef1cus is tap button my_recommendations at 2025-05-13 09:32:56.916069 
+User Malef1cus is tap button my_recommendations at 2025-05-13 09:33:18.021782 

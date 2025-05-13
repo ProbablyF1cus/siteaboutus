@@ -25,6 +25,7 @@
                 <input type="text" class="form-control input" id="name-input" placeholder="название"
                        style="width: 100%; background-color: rgb(175, 78, 8);" name="name">
             </div>
+            <label><input class="listofproducts" name="needofall" value='Yes' type="checkbox">Все пункты должны быть обязательны</label>
             <details class="products4cooking">
                 <summary class="dropdown-toggle">Выбери тип блюда</summary>
                 {% set recipe_types = ['Завтрак', 'Обед', 'Ужин', 'Десерт', 'Суп', 'Салат', 'Напиток', 'Закуска', 'Выпечка'] %}
@@ -43,12 +44,6 @@
                 </div>
                 {% endfor %}
             </details>
-            <div>
-                <label for="description-input" class="form-label"><h3>Описание рецепта</h3></label>
-                <textarea type="text" class="form-control input" id="description-input"
-                          style="width: 100%; background-color: rgb(175, 78, 8); height: 300px;"
-                          name="description"></textarea>
-            </div>
             <details class="products4cooking">
                 <summary class="dropdown-toggle">Выбери продукты, нужные для рецепта</summary>
                 <details class="products4cooking">
