@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/style_rating.css">
+    <script src="../static/js/script.js" defer></script>
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+</head>
+<body style="background-color: brown;">
+<form method="POST" action="/submit_rating/{{username}}">
+<header>
+  <div class="cont3">
+    <button type="submit" name="action" value="quit" class="btn btn-outline-danger">Quit</button>
+  </div>
+</header>
+<div class="cont">
+    {% for i in recipes %}
+    <div class="recipe-line">
+        <h1 class="numberof">{{ loop.index }}.</h1>
+        <div class="my-card">
+            <div class="card" style="width: 18rem;">
+                <img src={{i[3]}} class="card-img-top" alt="...">
+                <div class="card-body">
+                  <h5 class="card-title">{{i[1]}}</h5>
+                  <p class="card-text">Автор: {{i[4]}}</p>
+                  <div class="cont2">
+                    <button type="submit" name="action" value={{i[0]}} class="btn btn-primary">Посмотреть</button>
+                    <button type="submit" name="action" value="like_{{i[0]}}" class="btn">❤</button>
+                    <p>{{i[5]}}</p>
+                  </div>
+                </div>
+            </div>
+        </div>
+        <img src={{ i[7] }} alt="" class="user-img">
+    </div>
+    {% endfor %}
+</div>
+</form>
+</body>
+</html>

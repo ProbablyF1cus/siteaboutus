@@ -180,9 +180,9 @@ def submit_my_recommendations(username):
             res = json.dump(res, f)
 
 
-        return redirect(url_for('all_recipes', username=username))
+        return redirect(url_for('my_recommendations', username=username))
 
-    return redirect(url_for('all_recipes', username=username))
+    return redirect(url_for('my_recommendations', username=username))
 
 
 @app.route("/make_recipe/<username>/<id>")
@@ -203,16 +203,53 @@ def recipe(username, id):
 @app.route("/rating/<username>", methods=['POST', 'GET'])
 def rating(username):
     db_sess = db_session.create_session()
-    recipes1 = db_sess.query(Recipe).all()
-    recipes1 = [[i.id, i.name, i.description, i.image, i.author] for i in recipes1]
-    recipes = []
-    for i in recipes1:
-        if username == i[4]:
-            recipes.append(i)
-    # print(recipes)
+    recipes = db_sess.query(Recipe).all()
+    recipes = [[i.id, i.name, i.description, i.image, i.author, i.likes, i.difficult] for i in recipes]
+    for i in recipes:
+        user = db_sess.query(User).filter(User.name == str(i[4])).first()
+        i.append(user.image)
+    recipes = sorted(recipes, key=lambda x: x[5], reverse=True)
+    recipes = recipes[:20]
     db_sess.close()
-    return render_template('all_recipes.html', recipes=recipes)
+    return render_template('rating.html', recipes=recipes, username=username)
 
+@app.route("/submit_rating/<username>", methods=['POST', 'GET'])
+def submit_rating(username):
+    db_sess = db_session.create_session()
+    recipes = db_sess.query(Recipe).all()
+    recipes = [[i.id, i.name, i.description, i.image, i.author, i.likes, i.difficult] for i in recipes]
+    recipes = sorted(recipes, key=lambda x: x[5], reverse=True)
+    recipes = recipes[:20]
+    recipes1 = [str(i.id) for i in recipes]
+    recipes2 = [f"like_{i.id}" for i in recipes]
+    # print(request.form.get('action'))
+    # print(recipes)
+    if request.form.get('action') == "quit":
+        return redirect(url_for('profile', username=username))
+
+    if str(request.form.get('action')) in recipes1:
+        recipe = db_sess.query(Recipe).filter(Recipe.id == int(request.form.get('action'))).first()
+        return redirect(url_for('recipe', username=username, id=recipe.id))
+
+
+    if request.form.get('action') in recipes2:
+        with open('static/likes.json', encoding="utf-8") as f:
+            res = json.load(f)
+
+        recipe = db_sess.query(Recipe).filter(Recipe.id == int(request.form.get('action').split('_')[1])).first()
+
+        if recipe.id not in res[username]:
+            res[username].append(recipe.id)
+            recipe.likes += 1
+            db_sess.commit()
+
+        with open('static/likes.json', 'w', encoding="utf-8") as f:
+            res = json.dump(res, f)
+
+
+        return redirect(url_for('rating', username=username))
+
+    return redirect(url_for('rating', username=username))
 
 @app.route("/sing_up")
 def sing_up():
