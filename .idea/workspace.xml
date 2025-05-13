@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8a7ce2f3-a4d3-4faf-8f68-5110ad0828f2" name="Changes" comment="Фикс бага с лайками">
-      <change beforePath="$PROJECT_DIR$/db/db.db" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/logs.txt" beforeDir="false" afterPath="$PROJECT_DIR$/static/logs.txt" afterDir="false" />
-    </list>
+    <list default="true" id="8a7ce2f3-a4d3-4faf-8f68-5110ad0828f2" name="Changes" comment="ПРЕД РЕЛИЗ ПОЧТИ ПОСЛЕДНИЙ" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -278,7 +275,15 @@
       <option name="project" value="LOCAL" />
       <updated>1747141290874</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="ПРЕД РЕЛИЗ ПОЧТИ ПОСЛЕДНИЙ">
+      <option name="closed" value="true" />
+      <created>1747141613757</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1747141613757</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -345,6 +350,7 @@
     <MESSAGE value="Пред релиз5" />
     <MESSAGE value="Пред релиз" />
     <MESSAGE value="Фикс бага с лайками" />
-    <option name="LAST_COMMIT_MESSAGE" value="Фикс бага с лайками" />
+    <MESSAGE value="ПРЕД РЕЛИЗ ПОЧТИ ПОСЛЕДНИЙ" />
+    <option name="LAST_COMMIT_MESSAGE" value="ПРЕД РЕЛИЗ ПОЧТИ ПОСЛЕДНИЙ" />
   </component>
 </project>
