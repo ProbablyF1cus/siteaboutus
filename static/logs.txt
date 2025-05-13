@@ -128,3 +128,9 @@ User Malef1cus is tap button all_recipes at 2025-05-13 14:14:12.892775
 User Malef1cus is tap button possible_recipes at 2025-05-13 14:14:16.035728 
 User someone is leaving submit_recipe_filter at 2025-05-13 14:14:16.693672 
 User Malef1cus is tap button all_recipes at 2025-05-13 14:14:17.177656 
+User someone is trying to sing_in at 2025-05-13 15:54:17.284080 
+User Malef1cus is tap button all_recipes at 2025-05-13 15:54:29.418607 
+User Malef1cus is tap button profile at 2025-05-13 15:55:38.526804 
+User Malef1cus is tap button profile at 2025-05-13 15:55:42.323386 
+User love_cookies is tap button profile at 2025-05-13 15:56:01.848600 
+User love_cookies is tap button all_recipes at 2025-05-13 15:56:09.155284 

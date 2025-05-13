@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, make_response, redirect, url_for, jsonify
-from werkzeug.security import generate_password_hash
+
 from data.users import User
 from data.recipes import Recipe
 from data import db_session
@@ -157,8 +157,6 @@ def submit_my_recommendations(username):
         return redirect(url_for('profile', username=username))
     db_sess = db_session.create_session()
     recipes = db_sess.query(Recipe).all()
-    random.shuffle(recipes)
-    recipes = recipes[:20]
     recipes1 = [str(i.id) for i in recipes]
     recipes2 = [f"like_{i.id}" for i in recipes]
     if str(request.form.get('action')) in recipes1:
@@ -550,10 +548,17 @@ def submit_make_recipe(username):
 
 
 @app.route("/all_recipes/<username>", methods=['POST', 'GET'])
-def all_recipes(username, recipes=db_session.create_session().query(Recipe).all()):
-    recipes = [[i.id, i.name, i.description, i.image, i.author, i.likes, i.difficult] for i in recipes]
-    # print(recipes)
-    return render_template('all_recipes.html', recipes=recipes, username=username)
+def all_recipes(username, recipes=None):
+    if recipes:
+        recipes = [[i.id, i.name, i.description, i.image, i.author, i.likes, i.difficult] for i in recipes]
+        # print(recipes)
+        return render_template('all_recipes.html', recipes=recipes, username=username)
+    else:
+        db_sess = db_session.create_session()
+        recipes = db_sess.query(Recipe).all()
+        recipes = [[i.id, i.name, i.description, i.image, i.author, i.likes, i.difficult] for i in recipes]
+        # print(recipes)
+        return render_template('all_recipes.html', recipes=recipes, username=username)
 
 
 @app.route("/submit_all_recipes/<username>", methods=['POST', 'GET'])
