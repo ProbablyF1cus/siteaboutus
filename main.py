@@ -24,6 +24,7 @@ recipes = [{
 def allowed_file(filename):
     return filename.split('.')[-1].lower() in ['png', 'jpg', 'jpeg']
 
+
 def log_move(name_move, user):
     f = open("static/logs.txt", 'a')
     print(f.write(f'User {user} {name_move} at {datetime.datetime.now()} \n'))
@@ -132,7 +133,8 @@ def index_form():
 def my_recipes(username: str):
     db_sess = db_session.create_session()
     recipes = db_sess.query(Recipe).filter(Recipe.author == username).all()
-    recipes = [[i.id, i.name, i.description, i.image, i.author, i.likes, i.difficult] for i in recipes]    # print(recipes)
+    recipes = [[i.id, i.name, i.description, i.image, i.author, i.likes, i.difficult] for i in
+               recipes]  # print(recipes)
     return render_template('all_recipes.html', recipes=recipes, username=username)
 
 
@@ -140,7 +142,7 @@ def my_recipes(username: str):
 def my_recommendations(username):
     db_sess = db_session.create_session()
     recipes = db_sess.query(Recipe).all()
-    recipes = [[i.id, i.name, i.description, i.image, i.author] for i in recipes]
+    recipes = [[i.id, i.name, i.description, i.image, i.author, i.likes, i.difficult] for i in recipes]
     # print(recipes)
     random.shuffle(recipes)
     recipes = recipes[:20]
@@ -149,21 +151,19 @@ def my_recommendations(username):
 
 @app.route("/submit_my_recommendations/<username>", methods=['POST', 'GET'])
 def submit_my_recommendations(username):
+    # print(request.form.get('action'))
+    # print(recipes)
+    if request.form.get('action') == "quit":
+        return redirect(url_for('profile', username=username))
     db_sess = db_session.create_session()
     recipes = db_sess.query(Recipe).all()
     random.shuffle(recipes)
     recipes = recipes[:20]
     recipes1 = [str(i.id) for i in recipes]
     recipes2 = [f"like_{i.id}" for i in recipes]
-    # print(request.form.get('action'))
-    # print(recipes)
-    if request.form.get('action') == "quit":
-        return redirect(url_for('profile', username=username))
-
     if str(request.form.get('action')) in recipes1:
         recipe = db_sess.query(Recipe).filter(Recipe.id == int(request.form.get('action'))).first()
         return redirect(url_for('recipe', username=username, id=recipe.id))
-
 
     if request.form.get('action') in recipes2:
         with open('static/likes.json', encoding="utf-8") as f:
@@ -178,7 +178,6 @@ def submit_my_recommendations(username):
 
         with open('static/likes.json', 'w', encoding="utf-8") as f:
             res = json.dump(res, f)
-
 
         return redirect(url_for('my_recommendations', username=username))
 
@@ -194,10 +193,9 @@ def recipe(username, id):
     products = [i[1:-1] for i in products]
 
     recipe = {"id": recipe.id, "name": recipe.name, "description": recipe.description, "author": recipe.author,
-           "difficult": recipe.difficult, "products": products, "type": recipe.type}
+              "difficult": recipe.difficult, "products": products, "type": recipe.type}
 
     return render_template('recipe.html', username=username, recipe=recipe)
-
 
 
 @app.route("/rating/<username>", methods=['POST', 'GET'])
@@ -213,24 +211,23 @@ def rating(username):
     db_sess.close()
     return render_template('rating.html', recipes=recipes, username=username)
 
+
 @app.route("/submit_rating/<username>", methods=['POST', 'GET'])
 def submit_rating(username):
+    # print(request.form.get('action'))
+    # print(recipes)
+    if request.form.get('action') == "quit":
+        return redirect(url_for('profile', username=username))
     db_sess = db_session.create_session()
     recipes = db_sess.query(Recipe).all()
     recipes = [[i.id, i.name, i.description, i.image, i.author, i.likes, i.difficult] for i in recipes]
     recipes = sorted(recipes, key=lambda x: x[5], reverse=True)
     recipes = recipes[:20]
-    recipes1 = [str(i.id) for i in recipes]
-    recipes2 = [f"like_{i.id}" for i in recipes]
-    # print(request.form.get('action'))
-    # print(recipes)
-    if request.form.get('action') == "quit":
-        return redirect(url_for('profile', username=username))
-
+    recipes1 = [str(i[0]) for i in recipes]
+    recipes2 = [f"like_{i[0]}" for i in recipes]
     if str(request.form.get('action')) in recipes1:
         recipe = db_sess.query(Recipe).filter(Recipe.id == int(request.form.get('action'))).first()
         return redirect(url_for('recipe', username=username, id=recipe.id))
-
 
     if request.form.get('action') in recipes2:
         with open('static/likes.json', encoding="utf-8") as f:
@@ -246,10 +243,10 @@ def submit_rating(username):
         with open('static/likes.json', 'w', encoding="utf-8") as f:
             res = json.dump(res, f)
 
-
         return redirect(url_for('rating', username=username))
 
     return redirect(url_for('rating', username=username))
+
 
 @app.route("/sing_up")
 def sing_up():
@@ -259,6 +256,7 @@ def sing_up():
 @app.route("/sing_in")
 def sing_in():
     return render_template('sing_in.html')
+
 
 @app.route("/submit_sing_up", methods=['POST', 'GET'])
 def submit_sing_up():
@@ -306,6 +304,7 @@ def submit_sing_up():
 
     return redirect(url_for('profile', username=username))
 
+
 @app.route("/submit_sing_in", methods=['POST', 'GET'])
 def submit_sing_in():
     if request.form.get("submit_sing_in") == "go_to_sing_up":
@@ -345,6 +344,7 @@ def profile(username):
 @app.route("/recipe_filter/<username>", methods=['GET', 'POST'])
 def recipe_filter(username):
     return render_template('recipe_filter.html', username=username)
+
 
 @app.route("/submit_recipe_filter/<username>", methods=['POST', 'GET'])
 def submit_recipe_filter(username):
@@ -413,11 +413,12 @@ def submit_recipe_filter(username):
         log_move(f'is finding these recipes - {recipes}', 'someone')
         return render_template('all_recipes.html', recipes=recipes)
 
+
 @app.route("/recipe_filter_search", methods=['POST', 'GET'])
 def recipe_filter_search():
     db_sess = db_session.create_session()
     recipes = db_sess.query(Recipe).all()
-    recipes = [[i.id, i.name, i.description, i.image, i.author] for i in recipes]
+    recipes = [[i.id, i.name, i.description, i.image, i.author, i.likes, i.difficult] for i in recipes]
     # print(recipes)
     return render_template('all_recipes.html', recipes=recipes)
 
@@ -531,7 +532,6 @@ def submit_make_recipe(username):
         recipe.type = str(request.form.getlist('recipe_types'))
         recipe.likes = 0
 
-
         file = request.files['image']
 
         if file.filename != '':
@@ -555,21 +555,21 @@ def all_recipes(username, recipes=db_session.create_session().query(Recipe).all(
     # print(recipes)
     return render_template('all_recipes.html', recipes=recipes, username=username)
 
+
 @app.route("/submit_all_recipes/<username>", methods=['POST', 'GET'])
 def submit_all_recipes(username):
+    if request.form.get('action') == "quit":
+        return redirect(url_for('profile', username=username))
     db_sess = db_session.create_session()
     recipes = db_sess.query(Recipe).all()
     recipes1 = [str(i.id) for i in recipes]
     recipes2 = [f"like_{i.id}" for i in recipes]
     # print(request.form.get('action'))
     # print(recipes)
-    if request.form.get('action') == "quit":
-        return redirect(url_for('profile', username=username))
 
     if str(request.form.get('action')) in recipes1:
         recipe = db_sess.query(Recipe).filter(Recipe.id == int(request.form.get('action'))).first()
         return redirect(url_for('recipe', username=username, id=recipe.id))
-
 
     if request.form.get('action') in recipes2:
         with open('static/likes.json', encoding="utf-8") as f:
@@ -585,10 +585,10 @@ def submit_all_recipes(username):
         with open('static/likes.json', 'w', encoding="utf-8") as f:
             res = json.dump(res, f)
 
-
         return redirect(url_for('all_recipes', username=username))
 
     return redirect(url_for('all_recipes', username=username))
+
 
 @app.route("/api/recipes", methods=["GET"])
 def api_get_recipes():
@@ -604,7 +604,6 @@ def api_get_recipes():
         "difficult": r.difficult,
         "likes": r.likes,
     } for r in recipes])
-
 
 
 if __name__ == '__main__':
