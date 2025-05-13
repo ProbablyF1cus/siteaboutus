@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, make_response, redirect, url_for, jsonify
-
+from werkzeug.security import generate_password_hash
 from data.users import User
 from data.recipes import Recipe
 from data import db_session
