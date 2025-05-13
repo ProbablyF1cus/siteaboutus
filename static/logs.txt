@@ -119,3 +119,12 @@ User someone is trying to sing_in at 2025-05-13 11:09:41.884423
 User Malef1cus is tap button rating at 2025-05-13 11:09:44.017549 
 User someone is trying to sing_in at 2025-05-13 11:10:07.457702 
 User Malef1cus is tap button rating at 2025-05-13 11:10:09.204571 
+User someone is trying to sing_in at 2025-05-13 14:08:23.684571 
+User Malef1cus is tap button possible_recipes at 2025-05-13 14:08:25.283322 
+User someone is leaving submit_recipe_filter at 2025-05-13 14:08:26.052816 
+User Malef1cus is tap button all_recipes at 2025-05-13 14:08:27.394633 
+User someone is trying to sing_in at 2025-05-13 14:14:10.825500 
+User Malef1cus is tap button all_recipes at 2025-05-13 14:14:12.892775 
+User Malef1cus is tap button possible_recipes at 2025-05-13 14:14:16.035728 
+User someone is leaving submit_recipe_filter at 2025-05-13 14:14:16.693672 
+User Malef1cus is tap button all_recipes at 2025-05-13 14:14:17.177656 
